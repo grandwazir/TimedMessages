@@ -1,0 +1,4 @@
+name: TimedMessages
+main: name.richardson.james.timedmessages.TimedMessages
+author: James Richardson (grandwazir)
+description: Broadcast messages at specific times. 
