@@ -51,7 +51,7 @@ public class StatusCommand extends PlayerCommand {
     if (plugin.isTimersStarted()) {
       sender.sendMessage(String.format(ChatColor.GREEN + "%d timers are running.", plugin.getTimerCount()));
     } else {
-      sender.sendMessage(ChatColor.YELLOW + "No timers are currently running.");
+      sender.sendMessage(ChatColor.YELLOW + "No timer(s) are currently running.");
     }
   }
 
