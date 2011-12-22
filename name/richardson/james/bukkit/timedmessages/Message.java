@@ -1,3 +1,21 @@
+/*******************************************************************************
+ * Copyright (c) 2011 James Richardson.
+ * 
+ * Message.java is part of TimedMessages.
+ * 
+ * TimedMessages is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the Free
+ * Software Foundation, either version 3 of the License, or (at your option) any
+ * later version.
+ * 
+ * TimedMessages is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * TimedMessages. If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
 
 package name.richardson.james.bukkit.timedmessages;
 
@@ -27,6 +45,18 @@ public abstract class Message implements Runnable {
     logger.debug(String.format("Creating new message broadcasting every %s (%d ticks)", Time.millisToLongDHMS(milliseconds), ticks));
   }
 
+  public List<String> getMessages() {
+    return messages;
+  }
+
+  public String getPermission() {
+    return permission;
+  }
+
+  public Long getTicks() {
+    return ticks;
+  }
+
   @Override
   public void run() {
     String message = this.getNextMessage();
@@ -46,17 +76,5 @@ public abstract class Message implements Runnable {
   }
 
   protected abstract String getNextMessage();
-
-  public Long getTicks() {
-    return ticks;
-  }
-
-  public List<String> getMessages() {
-    return messages;
-  }
-
-  public String getPermission() {
-    return permission;
-  }
 
 }

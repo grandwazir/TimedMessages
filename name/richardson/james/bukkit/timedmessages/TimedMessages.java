@@ -1,3 +1,21 @@
+/*******************************************************************************
+ * Copyright (c) 2011 James Richardson.
+ * 
+ * TimedMessages.java is part of TimedMessages.
+ * 
+ * TimedMessages is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the Free
+ * Software Foundation, either version 3 of the License, or (at your option) any
+ * later version.
+ * 
+ * TimedMessages is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * TimedMessages. If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
 
 package name.richardson.james.bukkit.timedmessages;
 
@@ -25,6 +43,15 @@ public class TimedMessages extends Plugin {
   private CommandManager commandManager;
   private boolean timersStarted = false;
 
+  public boolean isTimersStarted() {
+    return timersStarted;
+  }
+
+  public void loadMessagesConfiguration() throws IOException {
+    final MessagesConfiguration configuration = new MessagesConfiguration(this);
+    this.messages = configuration.getConfigurationSections();
+  }
+
   @Override
   public void onDisable() {
     this.stopTimers();
@@ -49,14 +76,6 @@ public class TimedMessages extends Plugin {
     logger.info(String.format("%s is enabled.", this.getDescription().getFullName()));
   }
 
-  private void registerCommands() {
-    commandManager = new CommandManager(this.getDescription());
-    this.getCommand("tm").setExecutor(commandManager);
-    commandManager.registerCommand("reload", new ReloadCommand(this));
-    commandManager.registerCommand("start", new StartCommand(this));
-    commandManager.registerCommand("stop", new StopCommand(this));
-  }
-
   public void startTimers(long startDelay) {
     this.timersStarted = true;
     startDelay = startDelay * 20;
@@ -74,24 +93,23 @@ public class TimedMessages extends Plugin {
       this.getServer().getScheduler().scheduleSyncRepeatingTask(this, task, startDelay, task.getTicks());
     }
   }
-  
+
   public void stopTimers() {
     this.timersStarted = false;
     this.getServer().getScheduler().cancelTasks(this);
-  }
-  
-  public boolean isTimersStarted() {
-    return timersStarted;
-  }
-
-  public void loadMessagesConfiguration() throws IOException {
-    final MessagesConfiguration configuration = new MessagesConfiguration(this);
-    this.messages = configuration.getConfigurationSections();
   }
 
   private void loadConfiguration() throws IOException {
     this.configuration = new TimedMessagesConfiguration(this);
     if (this.configuration.getDebugging()) Logger.enableDebugging("timedmessages");
+  }
+
+  private void registerCommands() {
+    commandManager = new CommandManager(this.getDescription());
+    this.getCommand("tm").setExecutor(commandManager);
+    commandManager.registerCommand("reload", new ReloadCommand(this));
+    commandManager.registerCommand("start", new StartCommand(this));
+    commandManager.registerCommand("stop", new StopCommand(this));
   }
 
 }
