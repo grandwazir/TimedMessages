@@ -20,12 +20,15 @@
 package name.richardson.james.bukkit.timedmessages;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.bukkit.configuration.ConfigurationSection;
 
 import name.richardson.james.bukkit.timedmessages.management.ReloadCommand;
 import name.richardson.james.bukkit.timedmessages.management.StartCommand;
+import name.richardson.james.bukkit.timedmessages.management.StatusCommand;
 import name.richardson.james.bukkit.timedmessages.management.StopCommand;
 import name.richardson.james.bukkit.timedmessages.random.RandomMessage;
 import name.richardson.james.bukkit.timedmessages.rotation.RotatingMessage;
@@ -38,8 +41,10 @@ public class TimedMessages extends Plugin {
 
   public static final long START_DELAY = 30;
 
-  private TimedMessagesConfiguration configuration;
+  private final Set<Message> timers = new HashSet<Message>();
+  
   private List<ConfigurationSection> messages;
+  private TimedMessagesConfiguration configuration;
   private CommandManager commandManager;
   private boolean timersStarted = false;
 
@@ -77,6 +82,7 @@ public class TimedMessages extends Plugin {
   }
 
   public void startTimers(long startDelay) {
+    if (this.timersStarted) this.stopTimers();
     this.timersStarted = true;
     startDelay = startDelay * 20;
     for (ConfigurationSection section : messages) {
@@ -91,11 +97,17 @@ public class TimedMessages extends Plugin {
         task = new RandomMessage(this.getServer(), milliseconds, messages, permission);
       }
       this.getServer().getScheduler().scheduleSyncRepeatingTask(this, task, startDelay, task.getTicks());
+      timers.add(task);
     }
+  }
+  
+  public int getTimerCount() {
+    return timers.size();
   }
 
   public void stopTimers() {
     this.timersStarted = false;
+    this.timers.clear();
     this.getServer().getScheduler().cancelTasks(this);
   }
 
@@ -109,6 +121,7 @@ public class TimedMessages extends Plugin {
     this.getCommand("tm").setExecutor(commandManager);
     commandManager.registerCommand("reload", new ReloadCommand(this));
     commandManager.registerCommand("start", new StartCommand(this));
+    commandManager.registerCommand("status", new StatusCommand(this));
     commandManager.registerCommand("stop", new StopCommand(this));
   }
 
