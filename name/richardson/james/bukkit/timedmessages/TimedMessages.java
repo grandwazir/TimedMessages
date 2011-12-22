@@ -18,7 +18,7 @@ import name.richardson.james.bukkit.util.command.CommandManager;
 
 public class TimedMessages extends Plugin {
 
-  public static final long START_DELAY = 30 * 20;
+  public static final long START_DELAY = 30;
 
   private TimedMessagesConfiguration configuration;
   private List<ConfigurationSection> messages;
@@ -39,7 +39,7 @@ public class TimedMessages extends Plugin {
       this.loadConfiguration();
       this.loadMessagesConfiguration();
       this.setPermission();
-      this.startTimers();
+      this.startTimers(START_DELAY);
       this.registerCommands();
       logger.info(String.format("%d timers started.", messages.size()));
     } catch (IOException exception) {
@@ -57,8 +57,9 @@ public class TimedMessages extends Plugin {
     commandManager.registerCommand("stop", new StopCommand(this));
   }
 
-  public void startTimers() {
+  public void startTimers(int startDelay) {
     this.timersStarted = true;
+    startDelay = startDelay * 20;
     for (ConfigurationSection section : messages) {
       Long milliseconds = Time.parseTime(section.getString("delay", "5m"));
       List<String> messages = section.getStringList("messages");
@@ -70,7 +71,7 @@ public class TimedMessages extends Plugin {
       } else {
         task = new RandomMessage(this.getServer(), milliseconds, messages, permission);
       }
-      this.getServer().getScheduler().scheduleSyncRepeatingTask(this, task, START_DELAY, task.getTicks());
+      this.getServer().getScheduler().scheduleSyncRepeatingTask(this, task, startDelay, task.getTicks());
     }
   }
   
