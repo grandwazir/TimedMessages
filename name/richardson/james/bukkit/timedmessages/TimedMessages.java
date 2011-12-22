@@ -57,7 +57,7 @@ public class TimedMessages extends Plugin {
     commandManager.registerCommand("stop", new StopCommand(this));
   }
 
-  public void startTimers(int startDelay) {
+  public void startTimers(long startDelay) {
     this.timersStarted = true;
     startDelay = startDelay * 20;
     for (ConfigurationSection section : messages) {
