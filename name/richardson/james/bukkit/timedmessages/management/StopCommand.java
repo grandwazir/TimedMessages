@@ -38,7 +38,7 @@ public class StopCommand extends PlayerCommand {
   public static final String PERMISSION_DESCRIPTION = "Allow users to stop all timed messages.";
   public static final String USAGE = "";
 
-  public static final Permission PERMISSION = new Permission("timedmessage.stop", PERMISSION_DESCRIPTION, PermissionDefault.OP);
+  public static final Permission PERMISSION = new Permission("timedmessages.stop", PERMISSION_DESCRIPTION, PermissionDefault.OP);
 
   private final TimedMessages plugin;
 

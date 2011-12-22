@@ -38,7 +38,7 @@ public class ReloadCommand extends PlayerCommand {
   public static final String PERMISSION_DESCRIPTION = "Allow users to reload the messages from disk.";
   public static final String USAGE = "";
 
-  public static final Permission PERMISSION = new Permission("timedmessage.reload", PERMISSION_DESCRIPTION, PermissionDefault.OP);
+  public static final Permission PERMISSION = new Permission("timedmessages.reload", PERMISSION_DESCRIPTION, PermissionDefault.OP);
 
   private final TimedMessages plugin;
 

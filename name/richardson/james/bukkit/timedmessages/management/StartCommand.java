@@ -41,7 +41,7 @@ public class StartCommand extends PlayerCommand {
   public static final String PERMISSION_DESCRIPTION = "Allow users to start all timed messages.";
   public static final String USAGE = "[inital_delay]";
 
-  public static final Permission PERMISSION = new Permission("timedmessage.start", PERMISSION_DESCRIPTION, PermissionDefault.OP);
+  public static final Permission PERMISSION = new Permission("timedmessages.start", PERMISSION_DESCRIPTION, PermissionDefault.OP);
 
   private final TimedMessages plugin;
 

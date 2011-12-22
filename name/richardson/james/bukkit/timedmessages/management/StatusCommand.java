@@ -37,7 +37,7 @@ public class StatusCommand extends PlayerCommand {
   public static final String PERMISSION_DESCRIPTION = "Allow users to check the status of TimedMessages.";
   public static final String USAGE = "";
 
-  public static final Permission PERMISSION = new Permission("timedmessage.status", PERMISSION_DESCRIPTION, PermissionDefault.OP);
+  public static final Permission PERMISSION = new Permission("timedmessages.status", PERMISSION_DESCRIPTION, PermissionDefault.OP);
 
   private final TimedMessages plugin;
 
