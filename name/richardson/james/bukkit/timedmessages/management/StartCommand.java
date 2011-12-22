@@ -55,9 +55,9 @@ public class StartCommand extends PlayerCommand {
     if (plugin.isTimersStarted()) {
       throw new CommandUsageException("Timers have already been started!");
     } else {
-      final int delay = (Integer) arguments.get("delay");
+      final Long delay = (Long) arguments.get("delay");
       plugin.startTimers(delay);
-      sender.sendMessage(String.format(ChatColor.GREEN + "Timers started with an inital %d second delay.", TimedMessages.START_DELAY / 20));
+      sender.sendMessage(String.format(ChatColor.GREEN + "Timers started with an inital %d second delay.", TimedMessages.START_DELAY * 20));
     }
   }
 
@@ -68,7 +68,7 @@ public class StartCommand extends PlayerCommand {
       map.put("delay", TimedMessages.START_DELAY);
     } else {
       try {
-        map.put("delay", Integer.parseInt(arguments.get(0)));
+        map.put("delay", Long.parseLong(arguments.get(0)));
       } catch (NumberFormatException exception) {
         throw new CommandArgumentException("You must specify a valid number!", "The time should be in seconds.");
       }
