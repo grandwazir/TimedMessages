@@ -9,8 +9,6 @@ import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 
 import name.richardson.james.bukkit.timedmessages.TimedMessages;
-import name.richardson.james.bukkit.util.Plugin;
-import name.richardson.james.bukkit.util.command.CommandPermissionException;
 import name.richardson.james.bukkit.util.command.CommandUsageException;
 import name.richardson.james.bukkit.util.command.PlayerCommand;
 
@@ -24,18 +22,19 @@ public class ReloadCommand extends PlayerCommand {
   
   public static final Permission PERMISSION = new Permission("timedmessage.reload", PERMISSION_DESCRIPTION, PermissionDefault.OP);
   
-  public ReloadCommand(Plugin plugin) {
+  private final TimedMessages plugin;
+  
+  public ReloadCommand(TimedMessages plugin) {
     super(plugin, NAME, DESCRIPTION, USAGE, PERMISSION_DESCRIPTION, PERMISSION);
+    this.plugin = plugin;
   }
 
   @Override
-  public void execute(CommandSender sender, Map<String, Object> arguments) throws CommandPermissionException, CommandUsageException {
-    if (!sender.hasPermission(this.getPermission())) throw new CommandPermissionException("You do not have permission to do that", this.getPermission());
-    final TimedMessages plugin = (TimedMessages) this.plugin;
+  public void execute(CommandSender sender, Map<String, Object> arguments) throws CommandUsageException {
     try {
       plugin.loadMessagesConfiguration();
     } catch (IOException exception) {
-      throw new CommandUsageException("Disk error when reading configuration.", this.getUsage());
+      throw new CommandUsageException("Unable to reload configuration!");
     }
     sender.sendMessage(ChatColor.GREEN + "Messages have been reloaded.");
   }
