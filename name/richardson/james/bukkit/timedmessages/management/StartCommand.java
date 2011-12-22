@@ -57,7 +57,7 @@ public class StartCommand extends PlayerCommand {
     } else {
       final Long delay = (Long) arguments.get("delay");
       plugin.startTimers(delay);
-      sender.sendMessage(String.format(ChatColor.GREEN + "Timers started with an inital %d second delay.", TimedMessages.START_DELAY));
+      sender.sendMessage(String.format(ChatColor.GREEN + "Timers started with an inital %d second delay.", delay));
     }
   }
 
