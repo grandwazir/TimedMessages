@@ -26,5 +26,5 @@ Alternatively [older versions](http://downloads.james.richardson.name/public/bin
 
 ## Configuration
 
-1 Configure your settings (config.yml) and [add messages](https://github.com/grandwazir/TimedMessages/wiki/instructions) to messages.yml.
-2 [Add permissions](https://github.com/grandwazir/TimedMessages/wiki/permissions) if necessary.
+1. Configure your settings (config.yml) and [add messages](https://github.com/grandwazir/TimedMessages/wiki/instructions) to messages.yml.
+2. [Add permissions](https://github.com/grandwazir/TimedMessages/wiki/permissions) if necessary.
