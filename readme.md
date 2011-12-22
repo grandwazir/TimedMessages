@@ -8,6 +8,7 @@ TimedMessage is plugin for the Minecraft wrapper [Bukkit](http://bukkit.org/) th
 - Simple and easy to configure.
 - Broadcast a message from a predefined list perodically.
 - Messages support colour codes in either classic format or in the style of &RED.
+- Split long messages into multiple lines with `.
 - Optionally define a permission node a player must have to receive that message.
 - Define times using flexible human readable format: i.e 1h30m = 1 hour and 30 minutes.
 - Start, stop, reload and check the status of your messages in game.
