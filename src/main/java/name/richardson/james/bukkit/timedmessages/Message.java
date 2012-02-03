@@ -19,14 +19,12 @@
 
 package name.richardson.james.bukkit.timedmessages;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.permissions.Permissible;
 
 import name.richardson.james.bukkit.util.Colour;
 import name.richardson.james.bukkit.util.Logger;

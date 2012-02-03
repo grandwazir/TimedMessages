@@ -57,13 +57,11 @@ public class TimedMessages extends Plugin {
     this.messages = configuration.getConfigurationSections();
   }
 
-  @Override
   public void onDisable() {
     this.stopTimers();
     logger.info(String.format("%s is disabled.", this.getDescription().getName()));
   }
 
-  @Override
   public void onEnable() {
     logger.setPrefix("[TimedMessages] ");
 
@@ -90,11 +88,12 @@ public class TimedMessages extends Plugin {
       List<String> messages = section.getStringList("messages");
       String permission = section.getString("permission");
       String mode = section.getString("mode", "rotation");
+      String worldName = section.getString("worldName");
       Message task;
       if (mode.equalsIgnoreCase("rotation")) {
-        task = new RotatingMessage(this.getServer(), milliseconds, messages, permission);
+        task = new RotatingMessage(this.getServer(), milliseconds, messages, permission, worldName);
       } else {
-        task = new RandomMessage(this.getServer(), milliseconds, messages, permission);
+        task = new RandomMessage(this.getServer(), milliseconds, messages, permission, worldName);
       }
       this.getServer().getScheduler().scheduleSyncRepeatingTask(this, task, startDelay, task.getTicks());
       timers.add(task);

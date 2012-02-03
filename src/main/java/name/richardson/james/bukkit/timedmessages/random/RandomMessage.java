@@ -28,8 +28,8 @@ import name.richardson.james.bukkit.timedmessages.Message;
 
 public class RandomMessage extends Message {
 
-  public RandomMessage(Server server, Long milliseconds, List<String> messages, String permission) {
-    super(server, milliseconds, messages, permission);
+  public RandomMessage(Server server, Long milliseconds, List<String> messages, String permission, String worldName) {
+    super(server, milliseconds, messages, permission, worldName);
   }
 
   @Override
