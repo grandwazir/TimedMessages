@@ -30,8 +30,8 @@ public class RotatingMessage extends Message {
 
   private Iterator<String> iterator;
 
-  public RotatingMessage(Server server, Long time, List<String> messages, String permission) {
-    super(server, time, messages, permission);
+  public RotatingMessage(Server server, Long time, List<String> messages, String permission, String worldName) {
+    super(server, time, messages, permission, worldName);
     refreshIterator();
   }
 

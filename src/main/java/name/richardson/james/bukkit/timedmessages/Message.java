@@ -67,8 +67,12 @@ public abstract class Message implements Runnable {
     message = Colour.replace("&", message);
     String[] parts = message.split("/n");
     List<Player> players = new LinkedList<Player>();
-    World world = server.getWorld(this.worldName);
+    World world = null;
     
+    if (this.worldName != null) {
+      world = server.getWorld(this.worldName);
+    }
+      
     for (Player player : server.getOnlinePlayers()) {
       // ignore the player if they are not in the world required
       if (world != null && (player.getLocation().getWorld() != world)) continue;
