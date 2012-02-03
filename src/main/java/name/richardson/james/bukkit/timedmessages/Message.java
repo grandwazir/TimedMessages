@@ -19,9 +19,14 @@
 
 package name.richardson.james.bukkit.timedmessages;
 
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.bukkit.Server;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permissible;
 
 import name.richardson.james.bukkit.util.Colour;
 import name.richardson.james.bukkit.util.Logger;
@@ -35,13 +40,15 @@ public abstract class Message implements Runnable {
   private final Long ticks;
   private final String permission;
   private final Server server;
+  private final String worldName;
 
-  public Message(Server server, Long milliseconds, List<String> messages, String permission) {
+  public Message(Server server, Long milliseconds, List<String> messages, String permission, String worldName) {
     final long seconds = milliseconds / 1000;
     this.ticks = seconds * 20;
     this.messages = messages;
     this.permission = permission;
     this.server = server;
+    this.worldName = worldName;
     logger.debug(String.format("Creating new message broadcasting every %s (%d ticks)", Time.millisToLongDHMS(milliseconds), ticks));
   }
 
@@ -57,22 +64,30 @@ public abstract class Message implements Runnable {
     return ticks;
   }
 
-  @Override
   public void run() {
     String message = this.getNextMessage();
     message = Colour.replace("&", message);
-    String[] parts = message.split("`");
-    if (permission == null) {
-      for (String part : parts) {
-        logger.debug("Broadcasting message: " + part);
-        server.broadcast(part, Server.BROADCAST_CHANNEL_USERS);
-      }
-    } else {
-      for (String part : parts) {
-        logger.debug(String.format("Broadcasting message to users with %s : %s", permission, part));
-        server.broadcast(part, permission);
+    String[] parts = message.split("/n");
+    List<Player> players = new LinkedList<Player>();
+    World world = server.getWorld(this.worldName);
+    
+    for (Player player : server.getOnlinePlayers()) {
+      // ignore the player if they are not in the world required
+      if (world != null && (player.getLocation().getWorld() != world)) continue;
+      // ignore the player if they do not have the correct permission
+      if (this.permission != null && (!player.hasPermission(this.permission))) continue;
+      players.add(player);
+    }
+    
+    if (players.isEmpty()) return;
+    
+    for (String part : parts) {
+      logger.debug(String.format("Broadcasting message '%s' to %d players.", part, players.size()));
+      for (Player player : players) {
+        player.sendMessage(part);
       }
     }
+    
   }
 
   protected abstract String getNextMessage();
