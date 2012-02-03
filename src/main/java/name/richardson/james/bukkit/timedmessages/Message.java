@@ -83,8 +83,9 @@ public abstract class Message implements Runnable {
     
     if (players.isEmpty()) return;
     
+    logger.debug("Selecting players for broadcast: " + players.toString());
     for (String part : parts) {
-      logger.debug(String.format("Broadcasting message '%s' to %d players.", part, players.size()));
+      logger.debug(String.format("Broadcasting message: '%s'", part, players.size()));
       for (Player player : players) {
         player.sendMessage(part);
       }
