@@ -88,7 +88,7 @@ public class TimedMessages extends Plugin {
       List<String> messages = section.getStringList("messages");
       String permission = section.getString("permission");
       String mode = section.getString("mode", "rotation");
-      String worldName = section.getString("worldName");
+      String worldName = section.getString("world");
       Message task;
       if (mode.equalsIgnoreCase("rotation")) {
         task = new RotatingMessage(this.getServer(), milliseconds, messages, permission, worldName);
