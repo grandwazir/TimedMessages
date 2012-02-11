@@ -12,9 +12,9 @@
 
   <scm>
     <!-- Github repo -->
-    <connection>scm:git:git://github.com/grandwazir/DimensionDoor.git/</connection>
-    <developerConnection>scm:git:git@github.com:grandwazir/DimensionDoor.git</developerConnection>
-    <url>https://github.com/grandwazir/DimensionDoor</url>
+    <connection>scm:git:git://github.com/grandwazir/TimedMessages.git/</connection>
+    <developerConnection>scm:git:git@github.com:grandwazir/TimedMessages.git</developerConnection>
+    <url>https://github.com/grandwazir/TimedMessages</url>
   </scm>
 
   <distributionManagement>  
@@ -64,7 +64,30 @@
   </dependencies>
 
   <build>
+
       <plugins>
+          <plugin>
+              <groupId>com.github.danielflower.mavenplugins</groupId>
+              <!-- Generate a changelog based on github commits -->  
+              <artifactId>maven-gitlog-plugin</artifactId>
+              <version>1.4.7</version>
+              <configuration>
+                  <reportTitle>Changelog for ${project.name} (v${project.version})</reportTitle>
+                  <verbose>true</verbose>
+                  <outputDirectory>${basedir}</outputDirectory>
+                  <generatePlainTextChangeLog>true</generatePlainTextChangeLog>
+                  <plainTextChangeLogFilename>CHANGELOG.txt</plainTextChangeLogFilename>
+                  <generateSimpleHTMLChangeLog>false</generateSimpleHTMLChangeLog>
+                  <generateHTMLTableOnlyChangeLog>false</generateHTMLTableOnlyChangeLog>
+              </configuration>
+              <executions>
+                <execution>
+                      <goals>
+                          <goal>generate</goal>
+                      </goals>
+                  </execution>
+              </executions>
+          </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-release-plugin</artifactId>
