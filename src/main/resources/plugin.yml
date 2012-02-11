@@ -1,9 +1,10 @@
 name: TimedMessages
-main: name.richardson.james.bukkit.timedmessages.TimedMessages
-author: James Richardson (grandwazir)
 description: Broadcast messages at specific times.
-website: https://github.com/grandwazir/TimedMessages
 version: ${project.version}
+author: James Richardson (grandwazir)
+website: https://github.com/grandwazir/TimedMessages
+main: name.richardson.james.bukkit.timedmessages.TimedMessages
+
 commands:
   tm:
     description: 'TimedMessages root command'
