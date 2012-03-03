@@ -19,61 +19,63 @@
 
 package name.richardson.james.bukkit.timedmessages.management;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 
 import name.richardson.james.bukkit.timedmessages.TimedMessages;
-import name.richardson.james.bukkit.util.command.CommandArgumentException;
-import name.richardson.james.bukkit.util.command.CommandPermissionException;
-import name.richardson.james.bukkit.util.command.CommandUsageException;
-import name.richardson.james.bukkit.util.command.PlayerCommand;
+import name.richardson.james.bukkit.utilities.command.CommandArgumentException;
+import name.richardson.james.bukkit.utilities.command.PluginCommand;
+import name.richardson.james.bukkit.utilities.formatters.TimeFormatter;
 
-public class StartCommand extends PlayerCommand {
-
-  public static final String NAME = "start";
-  public static final String DESCRIPTION = "Start all timed messages.";
-  public static final String PERMISSION_DESCRIPTION = "Allow users to start all timed messages.";
-  public static final String USAGE = "[inital_delay]";
-
-  public static final Permission PERMISSION = new Permission("timedmessages.start", PERMISSION_DESCRIPTION, PermissionDefault.OP);
+public class StartCommand extends PluginCommand {
 
   private final TimedMessages plugin;
+  
+  /** The delay (in seconds) before starting the messages */
+  private long delay;
 
   public StartCommand(TimedMessages plugin) {
-    super(plugin, NAME, DESCRIPTION, USAGE, PERMISSION_DESCRIPTION, PERMISSION);
+    super(plugin);
     this.plugin = plugin;
+    this.registerPermissions();
   }
 
-  @Override
-  public void execute(CommandSender sender, Map<String, Object> arguments) throws CommandPermissionException, CommandUsageException {
-    if (plugin.isTimersStarted()) {
-      throw new CommandUsageException("Timers have already been started!");
-    } else {
-      final Long delay = (Long) arguments.get("delay");
-      plugin.startTimers(delay);
-      sender.sendMessage(String.format(ChatColor.GREEN + "Timers started with an inital %d second delay.", delay));
-    }
+  public void execute(CommandSender sender) throws name.richardson.james.bukkit.utilities.command.CommandArgumentException, name.richardson.james.bukkit.utilities.command.CommandPermissionException, name.richardson.james.bukkit.utilities.command.CommandUsageException {
+    // stop the timers if necessary
+    if (plugin.isTimersStarted()) plugin.stopTimers();
+    
+    plugin.startTimers(this.delay);
+    sender.sendMessage(ChatColor.GREEN + this.getFormattedTimerStartMessage());  
   }
 
-  @Override
-  public Map<String, Object> parseArguments(final List<String> arguments) throws CommandArgumentException {
-    HashMap<String, Object> map = new HashMap<String, Object>();
-    if (arguments.isEmpty()) {
-      map.put("delay", TimedMessages.START_DELAY);
-    } else {
+  public String getFormattedTimerStartMessage() {
+    Object[] arguments = {this.plugin.getTimerCount(), this.delay};
+    double[] limits = {0, 1, 2};
+    String[] formats = {this.getMessage("no-timers"), this.getMessage("one-timer"), this.getMessage("many-timers")};
+    return this.getChoiceFormattedMessage("timers-started", arguments, formats, limits);
+  }
+  
+  private void registerPermissions() {
+    final String prefix = this.plugin.getDescription().getName().toLowerCase() + ".";
+    // create the base permission
+    final Permission base = new Permission(prefix + this.getName(), this.plugin.getMessage("startcommand-permission-description"), PermissionDefault.OP);
+    base.addParent(this.plugin.getRootPermission(), true);
+    this.addPermission(base);
+  }
+  
+  public void parseArguments(String[] arguments, CommandSender sender) throws name.richardson.james.bukkit.utilities.command.CommandArgumentException {
+    this.delay = TimedMessages.START_DELAY;
+  
+    if (arguments.length >= 1) {
       try {
-        map.put("delay", Long.parseLong(arguments.get(0)));
+        this.delay = TimeFormatter.parseTime(arguments[0]);
       } catch (NumberFormatException exception) {
-        throw new CommandArgumentException("You must specify a valid number!", "The time should be in seconds.");
+        throw new CommandArgumentException(this.getMessage("invalid-time"), this.getMessage("time-format-help"));
       }
     }
-    return map;
+    
   }
 
 }

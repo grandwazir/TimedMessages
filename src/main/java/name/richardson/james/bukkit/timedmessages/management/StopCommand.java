@@ -27,34 +27,38 @@ import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 
 import name.richardson.james.bukkit.timedmessages.TimedMessages;
-import name.richardson.james.bukkit.util.command.CommandPermissionException;
-import name.richardson.james.bukkit.util.command.CommandUsageException;
-import name.richardson.james.bukkit.util.command.PlayerCommand;
+import name.richardson.james.bukkit.utilities.command.CommandArgumentException;
+import name.richardson.james.bukkit.utilities.command.PluginCommand;
 
-public class StopCommand extends PlayerCommand {
+public class StopCommand extends PluginCommand {
 
-  public static final String NAME = "stop";
-  public static final String DESCRIPTION = "Stop all timed messages.";
-  public static final String PERMISSION_DESCRIPTION = "Allow users to stop all timed messages.";
-  public static final String USAGE = "";
-
-  public static final Permission PERMISSION = new Permission("timedmessages.stop", PERMISSION_DESCRIPTION, PermissionDefault.OP);
-
+ 
   private final TimedMessages plugin;
 
   public StopCommand(TimedMessages plugin) {
-    super(plugin, NAME, DESCRIPTION, USAGE, PERMISSION_DESCRIPTION, PERMISSION);
+    super(plugin);
     this.plugin = plugin;
+    this.registerPermissions();
   }
 
-  @Override
-  public void execute(CommandSender sender, Map<String, Object> arguments) throws CommandPermissionException, CommandUsageException {
-    if (!plugin.isTimersStarted()) {
-      throw new CommandUsageException("Timers have not been started!");
-    } else {
-      plugin.stopTimers();
-      sender.sendMessage(ChatColor.GREEN + "All timers have been stopped.");
-    }
+  private void registerPermissions() {
+    final String prefix = this.plugin.getDescription().getName().toLowerCase() + ".";
+    // create the base permission
+    final Permission base = new Permission(prefix + this.getName(), this.plugin.getMessage("stopcommand-permission-description"), PermissionDefault.OP);
+    base.addParent(this.plugin.getRootPermission(), true);
+    this.addPermission(base);
+  }
+
+
+  
+  public void execute(CommandSender sender) throws CommandArgumentException, name.richardson.james.bukkit.utilities.command.CommandPermissionException, name.richardson.james.bukkit.utilities.command.CommandUsageException { 
+    if (plugin.isTimersStarted()) plugin.stopTimers();
+    sender.sendMessage(ChatColor.GREEN + this.getMessage("timers-stopped"));
+  }
+  
+
+  public void parseArguments(String[] arguments, CommandSender sender) throws CommandArgumentException {
+    return;
   }
 
 }

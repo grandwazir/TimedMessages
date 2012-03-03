@@ -27,32 +27,50 @@ import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 
 import name.richardson.james.bukkit.timedmessages.TimedMessages;
-import name.richardson.james.bukkit.util.command.CommandUsageException;
-import name.richardson.james.bukkit.util.command.PlayerCommand;
+import name.richardson.james.bukkit.utilities.command.CommandArgumentException;
+import name.richardson.james.bukkit.utilities.command.CommandPermissionException;
+import name.richardson.james.bukkit.utilities.command.PluginCommand;
 
-public class StatusCommand extends PlayerCommand {
-
-  public static final String NAME = "status";
-  public static final String DESCRIPTION = "Check the status of TimedMessages.";
-  public static final String PERMISSION_DESCRIPTION = "Allow users to check the status of TimedMessages.";
-  public static final String USAGE = "";
-
-  public static final Permission PERMISSION = new Permission("timedmessages.status", PERMISSION_DESCRIPTION, PermissionDefault.OP);
-
+public class StatusCommand extends PluginCommand {
+  
   private final TimedMessages plugin;
 
   public StatusCommand(TimedMessages plugin) {
-    super(plugin, NAME, DESCRIPTION, USAGE, PERMISSION_DESCRIPTION, PERMISSION);
+    super(plugin);
     this.plugin = plugin;
+    this.registerPermissions();
   }
 
-  @Override
-  public void execute(CommandSender sender, Map<String, Object> arguments) throws CommandUsageException {
-    if (plugin.isTimersStarted()) {
-      sender.sendMessage(String.format(ChatColor.GREEN + "%d timers are running.", plugin.getTimerCount()));
-    } else {
-      sender.sendMessage(ChatColor.YELLOW + "No timer(s) are currently running.");
-    }
+  private void registerPermissions() {
+    final String prefix = this.plugin.getDescription().getName().toLowerCase() + ".";
+    // create the base permission
+    final Permission base = new Permission(prefix + this.getName(), this.plugin.getMessage("statuscommand-permission-description"), PermissionDefault.OP);
+    base.addParent(this.plugin.getRootPermission(), true);
+    this.addPermission(base);
   }
+
+  public void execute(CommandSender sender) throws CommandArgumentException, CommandPermissionException, name.richardson.james.bukkit.utilities.command.CommandUsageException {
+    
+    if (plugin.isTimersStarted()) {
+      sender.sendMessage(ChatColor.GREEN + this.getFormattedTimerStatusMessage());
+    } else {
+      sender.sendMessage(ChatColor.YELLOW + this.getMessage("no-timers-running"));
+    }
+      
+  }
+  
+  public String getFormattedTimerStatusMessage() {
+    Object[] arguments = {this.plugin.getTimerCount()};
+    double[] limits = {0, 1, 2};
+    String[] formats = {this.getMessage("no-timers"), this.getMessage("one-timer"), this.getMessage("many-timers")};
+    return this.getChoiceFormattedMessage("timers-running", arguments, formats, limits);
+  }
+
+  public void parseArguments(String[] arguments, CommandSender sender) throws CommandArgumentException {
+    // TODO Auto-generated method stub
+    
+  }
+
+
 
 }
