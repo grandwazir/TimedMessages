@@ -58,7 +58,7 @@ public class TimedMessages extends SimplePlugin {
 
   public void onDisable() {
     this.stopTimers();
-    logger.info(String.format("%s is disabled.", this.getDescription().getName()));
+    this.logger.info(this.getSimpleFormattedMessage("plugin-disabled", this.getDescription().getName()));
   }
 
   public void onEnable() {
@@ -121,7 +121,6 @@ public class TimedMessages extends SimplePlugin {
     this.timersStarted = false;
     this.timers.clear();
     this.getServer().getScheduler().cancelTasks(this);
-    this.logger.info(this.getSimpleFormattedMessage("plugin-disabled", this.getDescription().getName()));
   }
 
   private void loadConfiguration() throws IOException {
