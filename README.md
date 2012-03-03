@@ -1,12 +1,13 @@
 TimedMessages
 ====================================
 
-TimedMessage is plugin for the Minecraft wrapper [Bukkit](http://bukkit.org/) that provides a method for administrators to broadcast messages perodically to the players on their server. You could use these messages to broadcast hints or important news. Alternativly you could target them at specific players who have a specific permission node, for example giving new player tips for guests on your server.
+TimedMessages is plugin for the Minecraft wrapper [Bukkit](http://bukkit.org/) that provides a method for administrators to broadcast messages periodically to the players on their server. You could use these messages to broadcast hints or important news. Alternatively you could target them at specific players who have a specific permission node, for example giving new player tips for guests on your server.
 
 ## Features
 
 - Simple and easy to configure.
-- Broadcast a message from a predefined list perodically.
+- Broadcast a message from a predefined list periodically.
+- Can broadcast to just players in a specific world.
 - Messages support colour codes in either classic format or in the style of &RED.
 - Split long messages into multiple lines with `.
 - Optionally define a permission node a player must have to receive that message.
