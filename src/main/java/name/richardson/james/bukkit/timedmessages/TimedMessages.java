@@ -87,6 +87,7 @@ public class TimedMessages extends SimplePlugin {
   public void startTimers(long startDelay) {
     if (this.timersStarted) this.stopTimers();
     this.timersStarted = true;
+    long startDelayInSeconds = startDelay;
     startDelay = startDelay * 20;
     for (ConfigurationSection section : messages) {
       Long milliseconds = TimeFormatter.parseTime(section.getString("delay", "5m"));
@@ -103,7 +104,7 @@ public class TimedMessages extends SimplePlugin {
       this.getServer().getScheduler().scheduleSyncRepeatingTask(this, task, startDelay, task.getTicks());
       timers.add(task);
     }
-    this.logger.info(this.getFormattedTimerStartMessage(TimedMessages.START_DELAY));
+    this.logger.info(this.getFormattedTimerStartMessage(startDelayInSeconds));
   }
   
   public String getFormattedTimerStartMessage(long delay) {

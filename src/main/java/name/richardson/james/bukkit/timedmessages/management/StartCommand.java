@@ -48,6 +48,8 @@ public class StartCommand extends PluginCommand {
     // stop the timers if necessary
     if (plugin.isTimersStarted()) plugin.stopTimers();
     
+    sender.sendMessage(String.valueOf(this.delay));
+    
     plugin.startTimers(this.delay);
     sender.sendMessage(ChatColor.GREEN + this.plugin.getFormattedTimerStartMessage(this.delay));  
   }
@@ -61,18 +63,22 @@ public class StartCommand extends PluginCommand {
   }
   
   public void parseArguments(String[] arguments, CommandSender sender) throws name.richardson.james.bukkit.utilities.command.CommandArgumentException {
-    this.delay = TimedMessages.START_DELAY;
-  
+    
     if (arguments.length >= 1) {
       try {
         this.delay = TimeFormatter.parseTime(arguments[0]);
       } catch (NumberFormatException exception) {
         throw new CommandArgumentException(this.getMessage("invalid-time"), this.getMessage("time-format-help"));
       }
-    } else if (this.delay == 0) {
-      throw new CommandArgumentException(this.getMessage("invalid-time"), this.getMessage("time-format-help"));
+      // check it is sane
+      this.delay = this.delay / 1000;
+      if (this.delay < 1) {
+        throw new CommandArgumentException(this.getMessage("invalid-time"), this.getMessage("time-format-help"));
+      }
+    } else {
+      this.delay = TimedMessages.START_DELAY;
     }
-    
+
   }
 
 }
