@@ -26,9 +26,9 @@ import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import name.richardson.james.bukkit.util.Colour;
-import name.richardson.james.bukkit.util.Logger;
-import name.richardson.james.bukkit.util.Time;
+import name.richardson.james.bukkit.utilities.formatters.ColourFormatter;
+import name.richardson.james.bukkit.utilities.formatters.TimeFormatter;
+import name.richardson.james.bukkit.utilities.internals.Logger;
 
 public abstract class Message implements Runnable {
 
@@ -47,7 +47,7 @@ public abstract class Message implements Runnable {
     this.permission = permission;
     this.server = server;
     this.worldName = worldName;
-    logger.debug(String.format("Creating new message broadcasting every %s (%d ticks)", Time.millisToLongDHMS(milliseconds), ticks));
+    logger.debug(String.format("Creating new message broadcasting every %s (%d ticks)", TimeFormatter.millisToLongDHMS(milliseconds), ticks));
   }
 
   public List<String> getMessages() {
@@ -64,7 +64,7 @@ public abstract class Message implements Runnable {
 
   public void run() {
     String message = this.getNextMessage();
-    message = Colour.replace("&", message);
+    message = ColourFormatter.replace("&", message);
     String[] parts = message.split("/n");
     List<Player> players = new LinkedList<Player>();
     World world = null;

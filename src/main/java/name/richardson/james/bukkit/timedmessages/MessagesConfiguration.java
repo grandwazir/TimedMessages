@@ -27,14 +27,14 @@ import java.util.List;
 
 import org.bukkit.configuration.ConfigurationSection;
 
-import name.richardson.james.bukkit.util.Plugin;
-import name.richardson.james.bukkit.util.configuration.AbstractConfiguration;
+import name.richardson.james.bukkit.utilities.configuration.AbstractConfiguration;
+import name.richardson.james.bukkit.utilities.plugin.SimplePlugin;
 
 public class MessagesConfiguration extends AbstractConfiguration {
 
   private List<ConfigurationSection> sections = new LinkedList<ConfigurationSection>();
 
-  public MessagesConfiguration(Plugin plugin) throws IOException {
+  public MessagesConfiguration(SimplePlugin plugin) throws IOException {
     super(plugin, "messages.yml");
     addExamples();
     setConfigurationSections();

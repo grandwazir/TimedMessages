@@ -1,5 +1,8 @@
-Changelog for TimedMessages (v1.0.1-SNAPSHOT)
+Changelog for TimedMessages (v1.1.1-SNAPSHOT)
 
+
+v1.1.0
+2012-02-11 15:33:37 +0000    preparing to release (James Richardson)
 2012-02-11 15:24:07 +0000    update pom and add automatic versioning to plugin.yml (James Richardson)
 2012-02-11 15:20:29 +0000    to match my other projects (James Richardson)
 2012-02-11 01:04:00 +0000    changed property for world to "world" from "world-name" (James Richardson)

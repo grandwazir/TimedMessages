@@ -36,8 +36,9 @@ import name.richardson.james.bukkit.util.Logger;
 import name.richardson.james.bukkit.util.Plugin;
 import name.richardson.james.bukkit.util.Time;
 import name.richardson.james.bukkit.util.command.CommandManager;
+import name.richardson.james.bukkit.utilities.plugin.SimplePlugin;
 
-public class TimedMessages extends Plugin {
+public class TimedMessages extends SimplePlugin {
 
   public static final long START_DELAY = 30;
 

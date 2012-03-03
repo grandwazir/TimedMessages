@@ -20,7 +20,6 @@
 package name.richardson.james.bukkit.timedmessages.management;
 
 import java.io.IOException;
-import java.util.Map;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -28,33 +27,46 @@ import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 
 import name.richardson.james.bukkit.timedmessages.TimedMessages;
-import name.richardson.james.bukkit.util.command.CommandUsageException;
-import name.richardson.james.bukkit.util.command.PlayerCommand;
+import name.richardson.james.bukkit.utilities.command.CommandArgumentException;
+import name.richardson.james.bukkit.utilities.command.CommandPermissionException;
+import name.richardson.james.bukkit.utilities.command.CommandUsageException;
+import name.richardson.james.bukkit.utilities.command.PluginCommand;
 
-public class ReloadCommand extends PlayerCommand {
-
-  public static final String NAME = "reload";
-  public static final String DESCRIPTION = "Reload messages from disk.";
-  public static final String PERMISSION_DESCRIPTION = "Allow users to reload the messages from disk.";
-  public static final String USAGE = "";
-
-  public static final Permission PERMISSION = new Permission("timedmessages.reload", PERMISSION_DESCRIPTION, PermissionDefault.OP);
+public class ReloadCommand extends PluginCommand {
 
   private final TimedMessages plugin;
 
   public ReloadCommand(TimedMessages plugin) {
-    super(plugin, NAME, DESCRIPTION, USAGE, PERMISSION_DESCRIPTION, PERMISSION);
+    super(plugin);
     this.plugin = plugin;
+    this.registerPermissions();
   }
 
-  @Override
-  public void execute(CommandSender sender, Map<String, Object> arguments) throws CommandUsageException {
+
+  private void registerPermissions() {
+    final String prefix = this.plugin.getDescription().getName().toLowerCase() + ".";
+    // create the base permission
+    final Permission base = new Permission(prefix + this.getName(), this.plugin.getMessage("reloadcommand-permission-description"), PermissionDefault.OP);
+    base.addParent(this.plugin.getRootPermission(), true);
+    this.addPermission(base);
+  }
+
+
+  public void execute(CommandSender sender) throws CommandArgumentException, CommandPermissionException, name.richardson.james.bukkit.utilities.command.CommandUsageException {
+    
     try {
-      plugin.loadMessagesConfiguration();
-    } catch (IOException exception) {
-      throw new CommandUsageException("Unable to reload configuration!");
+      this.plugin.loadMessagesConfiguration();
+    } catch (final IOException e) {
+      throw new CommandUsageException(this.getMessage("unable-to-read-configuration"));
     }
-    sender.sendMessage(ChatColor.GREEN + "Messages have been reloaded.");
+
+    sender.sendMessage(ChatColor.GREEN + this.getSimpleFormattedMessage("plugin-reloaded", this.plugin.getDescription().getName()));
+    
+  }
+  
+
+  public void parseArguments(String[] arguments, CommandSender sender) throws CommandArgumentException {
+    return;
   }
 
 }
