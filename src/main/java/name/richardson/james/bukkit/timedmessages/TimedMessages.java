@@ -67,9 +67,9 @@ public class TimedMessages extends SimplePlugin {
     try {
       this.loadConfiguration();
       this.setResourceBundle();
-      this.setRootPermission();
       this.loadMessagesConfiguration();
       this.startTimers(START_DELAY);
+      this.setRootPermission();
       this.registerCommands();
     } catch (IOException exception) {
       logger.severe(this.getMessage("unable-to-read-configuration"));
