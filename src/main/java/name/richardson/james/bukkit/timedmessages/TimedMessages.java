@@ -32,10 +32,9 @@ import name.richardson.james.bukkit.timedmessages.management.StatusCommand;
 import name.richardson.james.bukkit.timedmessages.management.StopCommand;
 import name.richardson.james.bukkit.timedmessages.random.RandomMessage;
 import name.richardson.james.bukkit.timedmessages.rotation.RotatingMessage;
-import name.richardson.james.bukkit.util.Logger;
-import name.richardson.james.bukkit.util.Plugin;
-import name.richardson.james.bukkit.util.Time;
-import name.richardson.james.bukkit.util.command.CommandManager;
+import name.richardson.james.bukkit.utilities.command.CommandManager;
+import name.richardson.james.bukkit.utilities.formatters.TimeFormatter;
+import name.richardson.james.bukkit.utilities.internals.Logger;
 import name.richardson.james.bukkit.utilities.plugin.SimplePlugin;
 
 public class TimedMessages extends SimplePlugin {
@@ -46,7 +45,6 @@ public class TimedMessages extends SimplePlugin {
   
   private List<ConfigurationSection> messages;
   private TimedMessagesConfiguration configuration;
-  private CommandManager commandManager;
   private boolean timersStarted = false;
 
   public boolean isTimersStarted() {
@@ -68,16 +66,22 @@ public class TimedMessages extends SimplePlugin {
 
     try {
       this.loadConfiguration();
+      this.setResourceBundle();
+      this.setRootPermission();
       this.loadMessagesConfiguration();
-      this.setPermission();
       this.startTimers(START_DELAY);
       this.registerCommands();
-      logger.info(String.format("%d timers started.", messages.size()));
     } catch (IOException exception) {
-      logger.severe("Unable to load configuration!");
+      logger.severe(this.getMessage("unable-to-read-configuration"));
+      this.setEnabled(false);
+    } finally {
+      if (!this.isEnabled()) {
+        logger.severe(this.getMessage("panic"));
+        return;
+      }
     }
 
-    logger.info(String.format("%s is enabled.", this.getDescription().getFullName()));
+    logger.info(this.getSimpleFormattedMessage("plugin-enabled", this.getDescription().getFullName()));
   }
 
   public void startTimers(long startDelay) {
@@ -85,7 +89,7 @@ public class TimedMessages extends SimplePlugin {
     this.timersStarted = true;
     startDelay = startDelay * 20;
     for (ConfigurationSection section : messages) {
-      Long milliseconds = Time.parseTime(section.getString("delay", "5m"));
+      Long milliseconds = TimeFormatter.parseTime(section.getString("delay", "5m"));
       List<String> messages = section.getStringList("messages");
       String permission = section.getString("permission");
       String mode = section.getString("mode", "rotation");
@@ -99,6 +103,14 @@ public class TimedMessages extends SimplePlugin {
       this.getServer().getScheduler().scheduleSyncRepeatingTask(this, task, startDelay, task.getTicks());
       timers.add(task);
     }
+    this.logger.info(this.getFormattedTimerStartMessage(TimedMessages.START_DELAY));
+  }
+  
+  public String getFormattedTimerStartMessage(long delay) {
+    Object[] arguments = {this.getTimerCount(), delay};
+    double[] limits = {0, 1, 2};
+    String[] formats = {this.getMessage("no-timers"), this.getMessage("one-timer"), this.getMessage("many-timers")};
+    return this.getChoiceFormattedMessage("timers-started", arguments, formats, limits);
   }
   
   public int getTimerCount() {
@@ -109,20 +121,21 @@ public class TimedMessages extends SimplePlugin {
     this.timersStarted = false;
     this.timers.clear();
     this.getServer().getScheduler().cancelTasks(this);
+    this.logger.info(this.getSimpleFormattedMessage("plugin-disabled", this.getDescription().getName()));
   }
 
   private void loadConfiguration() throws IOException {
     this.configuration = new TimedMessagesConfiguration(this);
-    if (this.configuration.getDebugging()) Logger.enableDebugging("timedmessages");
+    if (this.configuration.getDebugging()) Logger.setDebugging(this, true);
   }
 
   private void registerCommands() {
-    commandManager = new CommandManager(this.getDescription());
+    CommandManager commandManager = new CommandManager(this);
     this.getCommand("tm").setExecutor(commandManager);
-    commandManager.registerCommand("reload", new ReloadCommand(this));
-    commandManager.registerCommand("start", new StartCommand(this));
-    commandManager.registerCommand("status", new StatusCommand(this));
-    commandManager.registerCommand("stop", new StopCommand(this));
+    commandManager.addCommand(new ReloadCommand(this));
+    commandManager.addCommand(new StartCommand(this));
+    commandManager.addCommand(new StatusCommand(this));
+    commandManager.addCommand(new StopCommand(this));
   }
 
 }
