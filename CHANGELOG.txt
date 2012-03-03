@@ -1,5 +1,6 @@
 Changelog for TimedMessages (v1.1.1-SNAPSHOT)
 
+2012-03-03 18:48:26 +0000    fix time parsing fix missing key exception (James Richardson)
 2012-03-03 18:31:43 +0000    fix logging plugin disabled twice (James Richardson)
 2012-03-03 18:30:42 +0000    fix erronous output of startcommand (James Richardson)
 2012-03-03 18:26:35 +0000    fix for TimeFormatter outputting 0 when it should raise an exception (James Richardson)

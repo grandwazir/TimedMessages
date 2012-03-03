@@ -48,8 +48,6 @@ public class StartCommand extends PluginCommand {
     // stop the timers if necessary
     if (plugin.isTimersStarted()) plugin.stopTimers();
     
-    sender.sendMessage(String.valueOf(this.delay));
-    
     plugin.startTimers(this.delay);
     sender.sendMessage(ChatColor.GREEN + this.plugin.getFormattedTimerStartMessage(this.delay));  
   }
