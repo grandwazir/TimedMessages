@@ -49,14 +49,7 @@ public class StartCommand extends PluginCommand {
     if (plugin.isTimersStarted()) plugin.stopTimers();
     
     plugin.startTimers(this.delay);
-    sender.sendMessage(ChatColor.GREEN + this.getFormattedTimerStartMessage());  
-  }
-
-  public String getFormattedTimerStartMessage() {
-    Object[] arguments = {this.plugin.getTimerCount(), this.delay};
-    double[] limits = {0, 1, 2};
-    String[] formats = {this.getMessage("no-timers"), this.getMessage("one-timer"), this.getMessage("many-timers")};
-    return this.getChoiceFormattedMessage("timers-started", arguments, formats, limits);
+    sender.sendMessage(ChatColor.GREEN + this.plugin.getFormattedTimerStartMessage(this.delay));  
   }
   
   private void registerPermissions() {

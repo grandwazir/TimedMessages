@@ -1,5 +1,6 @@
 Changelog for TimedMessages (v1.1.1-SNAPSHOT)
 
+2012-03-03 18:26:35 +0000    fix for TimeFormatter outputting 0 when it should raise an exception (James Richardson)
 2012-03-03 18:22:56 +0000    allow console to use ALL commands (James Richardson)
 2012-03-03 18:22:43 +0000    allow console to use commands (James Richardson)
 2012-03-03 18:17:24 +0000    updated base classes (James Richardson)
