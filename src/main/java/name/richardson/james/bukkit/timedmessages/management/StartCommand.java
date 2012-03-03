@@ -76,6 +76,8 @@ public class StartCommand extends PluginCommand {
       } catch (NumberFormatException exception) {
         throw new CommandArgumentException(this.getMessage("invalid-time"), this.getMessage("time-format-help"));
       }
+    } else if (this.delay == 0) {
+      throw new CommandArgumentException(this.getMessage("invalid-time"), this.getMessage("time-format-help"));
     }
     
   }
