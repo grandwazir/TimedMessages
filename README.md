@@ -19,9 +19,9 @@ TimedMessage is plugin for the Minecraft wrapper [Bukkit](http://bukkit.org/) th
 
 Before installing, you need to make sure you are running at least the latest [recommended build](http://dl.bukkit.org/latest-rb/craftbukkit.jar) for Bukkit. Support is only given for problems when using a recommended build. This does not mean that the plugin will not work on other versions of Bukkit, the likelihood is it will, but it is not supported.
 
-### Getting SimpleStats
+### Getting TimedMessages
 
-The best way to install SimpleStats is to use the [symbolic link](http://repository.james.richardson.name/symbolic/TimedMessages.jar) to the latest version. This link always points to the latest version of SimpleStats, so is safe to use in scripts or update plugins. Additionally you can to use the [RSS feed](http://dev.bukkit.org/server-mods/SimpleStats/files.rss) provided by BukkitDev as this also includes a version changelog.
+The best way to install TimedMessages is to use the [symbolic link](http://repository.james.richardson.name/symbolic/TimedMessages.jar) to the latest version. This link always points to the latest version of TimedMessages, so is safe to use in scripts or update plugins. Additionally you can to use the [RSS feed](http://dev.bukkit.org/server-mods/TimedMessages/files.rss) provided by BukkitDev as this also includes a version changelog.
     
 Alternatively [older versions](http://repository.james.richardson.name/releases/name/richardson/james/bukkit/timed-messages/) are available as well, however they are not supported. If you are forced to use an older version for whatever reason, please let me know why by [opening a issue](https://github.com/grandwazir/TimedMessages/issues/new) on GitHub.
 
@@ -29,6 +29,6 @@ Alternatively [older versions](http://repository.james.richardson.name/releases/
 
 ### Read the documentation
 
-All documentation for SimpleStats is available on the [GitHub wiki](https://github.com/grandwazir/TimedMessages/wiki), including [example usage](https://github.com/grandwazir/TimedMessages/wiki/Instructions).
+All documentation for TimedMessages is available on the [GitHub wiki](https://github.com/grandwazir/TimedMessages/wiki), including [example usage](https://github.com/grandwazir/TimedMessages/wiki/Instructions).
 
 
