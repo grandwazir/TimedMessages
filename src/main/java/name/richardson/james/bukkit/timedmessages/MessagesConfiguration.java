@@ -32,24 +32,24 @@ import name.richardson.james.bukkit.utilities.plugin.SimplePlugin;
 
 public class MessagesConfiguration extends AbstractConfiguration {
 
-  private List<ConfigurationSection> sections = new LinkedList<ConfigurationSection>();
+  private final List<ConfigurationSection> sections = new LinkedList<ConfigurationSection>();
 
-  public MessagesConfiguration(SimplePlugin plugin) throws IOException {
+  public MessagesConfiguration(final SimplePlugin plugin) throws IOException {
     super(plugin, "messages.yml");
-    addExamples();
-    setConfigurationSections();
+    this.addExamples();
+    this.setConfigurationSections();
   }
 
   public List<ConfigurationSection> getConfigurationSections() {
-    return Collections.unmodifiableList(sections);
+    return Collections.unmodifiableList(this.sections);
   }
 
   private void addExamples() throws IOException {
-    if (!configuration.isConfigurationSection("messages")) {
-      logger.debug("Creating examples.");
-      configuration.createSection("messages");
-      configuration.createSection("messages.example");
-      final ConfigurationSection section = configuration.getConfigurationSection("messages.example");
+    if (!this.configuration.isConfigurationSection("messages")) {
+      this.logger.debug("Creating examples.");
+      this.configuration.createSection("messages");
+      this.configuration.createSection("messages.example");
+      final ConfigurationSection section = this.configuration.getConfigurationSection("messages.example");
       section.set("mode", "rotation");
       section.set("delay", "1m");
       section.set("permission", "group.default");
@@ -59,8 +59,8 @@ public class MessagesConfiguration extends AbstractConfiguration {
   }
 
   private void setConfigurationSections() {
-    for (String key : configuration.getConfigurationSection("messages").getKeys(false)) {
-      sections.add(configuration.getConfigurationSection("messages." + key));
+    for (final String key : this.configuration.getConfigurationSection("messages").getKeys(false)) {
+      this.sections.add(this.configuration.getConfigurationSection("messages." + key));
     }
   }
 

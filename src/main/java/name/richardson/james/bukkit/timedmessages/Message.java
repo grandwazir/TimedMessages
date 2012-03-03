@@ -40,57 +40,63 @@ public abstract class Message implements Runnable {
   private final Server server;
   private final String worldName;
 
-  public Message(Server server, Long milliseconds, List<String> messages, String permission, String worldName) {
+  public Message(final Server server, final Long milliseconds, final List<String> messages, final String permission, final String worldName) {
     final long seconds = milliseconds / 1000;
     this.ticks = seconds * 20;
     this.messages = messages;
     this.permission = permission;
     this.server = server;
     this.worldName = worldName;
-    logger.debug(String.format("Creating new message broadcasting every %s (%d ticks)", TimeFormatter.millisToLongDHMS(milliseconds), ticks));
+    this.logger.debug(String.format("Creating new message broadcasting every %s (%d ticks)", TimeFormatter.millisToLongDHMS(milliseconds), this.ticks));
   }
 
   public List<String> getMessages() {
-    return messages;
+    return this.messages;
   }
 
   public String getPermission() {
-    return permission;
+    return this.permission;
   }
 
   public Long getTicks() {
-    return ticks;
+    return this.ticks;
   }
 
   public void run() {
     String message = this.getNextMessage();
     message = ColourFormatter.replace("&", message);
-    String[] parts = message.split("/n");
-    List<Player> players = new LinkedList<Player>();
+    final String[] parts = message.split("/n");
+    final List<Player> players = new LinkedList<Player>();
     World world = null;
-    
+
     if (this.worldName != null) {
-      world = server.getWorld(this.worldName);
+      world = this.server.getWorld(this.worldName);
     }
-      
-    for (Player player : server.getOnlinePlayers()) {
+
+    for (final Player player : this.server.getOnlinePlayers()) {
       // ignore the player if they are not in the world required
-      if (world != null && (player.getLocation().getWorld() != world)) continue;
+      if ((world != null) && (player.getLocation().getWorld() != world)) {
+        continue;
+      }
       // ignore the player if they do not have the correct permission
-      if (this.permission != null && (!player.hasPermission(this.permission))) continue;
+      if ((this.permission != null) && (!player.hasPermission(this.permission))) {
+        continue;
+      }
       players.add(player);
     }
-    
-    if (players.isEmpty()) return;
-    
-    logger.debug("Selecting players for broadcast: " + players.toString());
-    for (String part : parts) {
-      logger.debug(String.format("Broadcasting message: '%s'", part, players.size()));
-      for (Player player : players) {
+
+    if (players.isEmpty()) {
+      return;
+    }
+
+    this.logger.debug("Selecting players for broadcast: " + players.toString());
+    for (final String part : parts) {
+      this.logger.debug(String.format("Broadcasting message: '%s'", part, players.size()));
+      for (final Player player : players) {
         player.sendMessage(part);
       }
     }
-    
+
   }
 
   protected abstract String getNextMessage();

@@ -38,24 +38,14 @@ public class ReloadCommand extends PluginCommand {
 
   private final TimedMessages plugin;
 
-  public ReloadCommand(TimedMessages plugin) {
+  public ReloadCommand(final TimedMessages plugin) {
     super(plugin);
     this.plugin = plugin;
     this.registerPermissions();
   }
 
+  public void execute(final CommandSender sender) throws CommandArgumentException, CommandPermissionException, CommandUsageException {
 
-  private void registerPermissions() {
-    final String prefix = this.plugin.getDescription().getName().toLowerCase() + ".";
-    // create the base permission
-    final Permission base = new Permission(prefix + this.getName(), this.plugin.getMessage("reloadcommand-permission-description"), PermissionDefault.OP);
-    base.addParent(this.plugin.getRootPermission(), true);
-    this.addPermission(base);
-  }
-
-
-  public void execute(CommandSender sender) throws CommandArgumentException, CommandPermissionException, name.richardson.james.bukkit.utilities.command.CommandUsageException {
-    
     try {
       this.plugin.loadMessagesConfiguration();
     } catch (final IOException e) {
@@ -63,12 +53,19 @@ public class ReloadCommand extends PluginCommand {
     }
 
     sender.sendMessage(ChatColor.GREEN + this.getSimpleFormattedMessage("plugin-reloaded", this.plugin.getDescription().getName()));
-    
-  }
-  
 
-  public void parseArguments(String[] arguments, CommandSender sender) throws CommandArgumentException {
+  }
+
+  public void parseArguments(final String[] arguments, final CommandSender sender) throws CommandArgumentException {
     return;
+  }
+
+  private void registerPermissions() {
+    final String prefix = this.plugin.getDescription().getName().toLowerCase() + ".";
+    // create the base permission
+    final Permission base = new Permission(prefix + this.getName(), this.plugin.getMessage("reloadcommand-permission-description"), PermissionDefault.OP);
+    base.addParent(this.plugin.getRootPermission(), true);
+    this.addPermission(base);
   }
 
 }

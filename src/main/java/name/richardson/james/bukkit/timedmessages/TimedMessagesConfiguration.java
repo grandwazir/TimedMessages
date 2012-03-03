@@ -26,12 +26,12 @@ import name.richardson.james.bukkit.utilities.plugin.SimplePlugin;
 
 public class TimedMessagesConfiguration extends AbstractConfiguration {
 
-  public TimedMessagesConfiguration(SimplePlugin plugin) throws IOException {
+  public TimedMessagesConfiguration(final SimplePlugin plugin) throws IOException {
     super(plugin, "config.yml");
   }
 
   public boolean getDebugging() {
-    return configuration.getBoolean("debugging");
+    return this.configuration.getBoolean("debugging");
   }
 
 }

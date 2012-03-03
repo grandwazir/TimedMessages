@@ -30,19 +30,21 @@ public class RotatingMessage extends Message {
 
   private Iterator<String> iterator;
 
-  public RotatingMessage(Server server, Long time, List<String> messages, String permission, String worldName) {
+  public RotatingMessage(final Server server, final Long time, final List<String> messages, final String permission, final String worldName) {
     super(server, time, messages, permission, worldName);
-    refreshIterator();
+    this.refreshIterator();
   }
 
   private void refreshIterator() {
-    iterator = messages.iterator();
+    this.iterator = this.messages.iterator();
   }
 
   @Override
   protected String getNextMessage() {
-    if (!iterator.hasNext()) refreshIterator();
-    return iterator.next().toString();
+    if (!this.iterator.hasNext()) {
+      this.refreshIterator();
+    }
+    return this.iterator.next().toString();
   }
 
 }

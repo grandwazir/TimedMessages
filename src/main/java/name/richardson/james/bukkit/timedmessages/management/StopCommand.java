@@ -19,8 +19,6 @@
 
 package name.richardson.james.bukkit.timedmessages.management;
 
-import java.util.Map;
-
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;
@@ -28,19 +26,31 @@ import org.bukkit.permissions.PermissionDefault;
 
 import name.richardson.james.bukkit.timedmessages.TimedMessages;
 import name.richardson.james.bukkit.utilities.command.CommandArgumentException;
+import name.richardson.james.bukkit.utilities.command.CommandPermissionException;
+import name.richardson.james.bukkit.utilities.command.CommandUsageException;
 import name.richardson.james.bukkit.utilities.command.ConsoleCommand;
 import name.richardson.james.bukkit.utilities.command.PluginCommand;
 
 @ConsoleCommand
 public class StopCommand extends PluginCommand {
 
- 
   private final TimedMessages plugin;
 
-  public StopCommand(TimedMessages plugin) {
+  public StopCommand(final TimedMessages plugin) {
     super(plugin);
     this.plugin = plugin;
     this.registerPermissions();
+  }
+
+  public void execute(final CommandSender sender) throws CommandArgumentException, CommandPermissionException, CommandUsageException {
+    if (this.plugin.isTimersStarted()) {
+      this.plugin.stopTimers();
+    }
+    sender.sendMessage(ChatColor.GREEN + this.getMessage("timers-stopped"));
+  }
+
+  public void parseArguments(final String[] arguments, final CommandSender sender) throws CommandArgumentException {
+    return;
   }
 
   private void registerPermissions() {
@@ -49,18 +59,6 @@ public class StopCommand extends PluginCommand {
     final Permission base = new Permission(prefix + this.getName(), this.plugin.getMessage("stopcommand-permission-description"), PermissionDefault.OP);
     base.addParent(this.plugin.getRootPermission(), true);
     this.addPermission(base);
-  }
-
-
-  
-  public void execute(CommandSender sender) throws CommandArgumentException, name.richardson.james.bukkit.utilities.command.CommandPermissionException, name.richardson.james.bukkit.utilities.command.CommandUsageException { 
-    if (plugin.isTimersStarted()) plugin.stopTimers();
-    sender.sendMessage(ChatColor.GREEN + this.getMessage("timers-stopped"));
-  }
-  
-
-  public void parseArguments(String[] arguments, CommandSender sender) throws CommandArgumentException {
-    return;
   }
 
 }

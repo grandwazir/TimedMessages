@@ -19,8 +19,6 @@
 
 package name.richardson.james.bukkit.timedmessages.management;
 
-import java.util.Map;
-
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;
@@ -29,18 +27,41 @@ import org.bukkit.permissions.PermissionDefault;
 import name.richardson.james.bukkit.timedmessages.TimedMessages;
 import name.richardson.james.bukkit.utilities.command.CommandArgumentException;
 import name.richardson.james.bukkit.utilities.command.CommandPermissionException;
+import name.richardson.james.bukkit.utilities.command.CommandUsageException;
 import name.richardson.james.bukkit.utilities.command.ConsoleCommand;
 import name.richardson.james.bukkit.utilities.command.PluginCommand;
 
 @ConsoleCommand
 public class StatusCommand extends PluginCommand {
-  
+
   private final TimedMessages plugin;
 
-  public StatusCommand(TimedMessages plugin) {
+  public StatusCommand(final TimedMessages plugin) {
     super(plugin);
     this.plugin = plugin;
     this.registerPermissions();
+  }
+
+  public void execute(final CommandSender sender) throws CommandArgumentException, CommandPermissionException, CommandUsageException {
+
+    if (this.plugin.isTimersStarted()) {
+      sender.sendMessage(ChatColor.GREEN + this.getFormattedTimerStatusMessage());
+    } else {
+      sender.sendMessage(ChatColor.YELLOW + this.getMessage("no-timers-running"));
+    }
+
+  }
+
+  public String getFormattedTimerStatusMessage() {
+    final Object[] arguments = { this.plugin.getTimerCount() };
+    final double[] limits = { 0, 1, 2 };
+    final String[] formats = { this.getMessage("no-timers"), this.getMessage("one-timer"), this.getMessage("many-timers") };
+    return this.getChoiceFormattedMessage("timers-running", arguments, formats, limits);
+  }
+
+  public void parseArguments(final String[] arguments, final CommandSender sender) throws CommandArgumentException {
+    // TODO Auto-generated method stub
+
   }
 
   private void registerPermissions() {
@@ -50,29 +71,5 @@ public class StatusCommand extends PluginCommand {
     base.addParent(this.plugin.getRootPermission(), true);
     this.addPermission(base);
   }
-
-  public void execute(CommandSender sender) throws CommandArgumentException, CommandPermissionException, name.richardson.james.bukkit.utilities.command.CommandUsageException {
-    
-    if (plugin.isTimersStarted()) {
-      sender.sendMessage(ChatColor.GREEN + this.getFormattedTimerStatusMessage());
-    } else {
-      sender.sendMessage(ChatColor.YELLOW + this.getMessage("no-timers-running"));
-    }
-      
-  }
-  
-  public String getFormattedTimerStatusMessage() {
-    Object[] arguments = {this.plugin.getTimerCount()};
-    double[] limits = {0, 1, 2};
-    String[] formats = {this.getMessage("no-timers"), this.getMessage("one-timer"), this.getMessage("many-timers")};
-    return this.getChoiceFormattedMessage("timers-running", arguments, formats, limits);
-  }
-
-  public void parseArguments(String[] arguments, CommandSender sender) throws CommandArgumentException {
-    // TODO Auto-generated method stub
-    
-  }
-
-
 
 }

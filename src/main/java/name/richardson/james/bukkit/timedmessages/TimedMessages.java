@@ -42,13 +42,24 @@ public class TimedMessages extends SimplePlugin {
   public static final long START_DELAY = 30;
 
   private final Set<Message> timers = new HashSet<Message>();
-  
+
   private List<ConfigurationSection> messages;
   private TimedMessagesConfiguration configuration;
   private boolean timersStarted = false;
 
+  public String getFormattedTimerStartMessage(final long delay) {
+    final Object[] arguments = { this.getTimerCount(), delay };
+    final double[] limits = { 0, 1, 2 };
+    final String[] formats = { this.getMessage("no-timers"), this.getMessage("one-timer"), this.getMessage("many-timers") };
+    return this.getChoiceFormattedMessage("timers-started", arguments, formats, limits);
+  }
+
+  public int getTimerCount() {
+    return this.timers.size();
+  }
+
   public boolean isTimersStarted() {
-    return timersStarted;
+    return this.timersStarted;
   }
 
   public void loadMessagesConfiguration() throws IOException {
@@ -56,13 +67,15 @@ public class TimedMessages extends SimplePlugin {
     this.messages = configuration.getConfigurationSections();
   }
 
+  @Override
   public void onDisable() {
     this.stopTimers();
     this.logger.info(this.getSimpleFormattedMessage("plugin-disabled", this.getDescription().getName()));
   }
 
+  @Override
   public void onEnable() {
-    logger.setPrefix("[TimedMessages] ");
+    this.logger.setPrefix("[TimedMessages] ");
 
     try {
       this.loadConfiguration();
@@ -71,30 +84,32 @@ public class TimedMessages extends SimplePlugin {
       this.startTimers(START_DELAY);
       this.setRootPermission();
       this.registerCommands();
-    } catch (IOException exception) {
-      logger.severe(this.getMessage("unable-to-read-configuration"));
+    } catch (final IOException exception) {
+      this.logger.severe(this.getMessage("unable-to-read-configuration"));
       this.setEnabled(false);
     } finally {
       if (!this.isEnabled()) {
-        logger.severe(this.getMessage("panic"));
+        this.logger.severe(this.getMessage("panic"));
         return;
       }
     }
 
-    logger.info(this.getSimpleFormattedMessage("plugin-enabled", this.getDescription().getFullName()));
+    this.logger.info(this.getSimpleFormattedMessage("plugin-enabled", this.getDescription().getFullName()));
   }
 
   public void startTimers(long startDelay) {
-    if (this.timersStarted) this.stopTimers();
+    if (this.timersStarted) {
+      this.stopTimers();
+    }
     this.timersStarted = true;
-    long startDelayInSeconds = startDelay;
+    final long startDelayInSeconds = startDelay;
     startDelay = startDelay * 20;
-    for (ConfigurationSection section : messages) {
-      Long milliseconds = TimeFormatter.parseTime(section.getString("delay", "5m"));
-      List<String> messages = section.getStringList("messages");
-      String permission = section.getString("permission");
-      String mode = section.getString("mode", "rotation");
-      String worldName = section.getString("world");
+    for (final ConfigurationSection section : this.messages) {
+      final Long milliseconds = TimeFormatter.parseTime(section.getString("delay", "5m"));
+      final List<String> messages = section.getStringList("messages");
+      final String permission = section.getString("permission");
+      final String mode = section.getString("mode", "rotation");
+      final String worldName = section.getString("world");
       Message task;
       if (mode.equalsIgnoreCase("rotation")) {
         task = new RotatingMessage(this.getServer(), milliseconds, messages, permission, worldName);
@@ -102,20 +117,9 @@ public class TimedMessages extends SimplePlugin {
         task = new RandomMessage(this.getServer(), milliseconds, messages, permission, worldName);
       }
       this.getServer().getScheduler().scheduleSyncRepeatingTask(this, task, startDelay, task.getTicks());
-      timers.add(task);
+      this.timers.add(task);
     }
     this.logger.info(this.getFormattedTimerStartMessage(startDelayInSeconds));
-  }
-  
-  public String getFormattedTimerStartMessage(long delay) {
-    Object[] arguments = {this.getTimerCount(), delay};
-    double[] limits = {0, 1, 2};
-    String[] formats = {this.getMessage("no-timers"), this.getMessage("one-timer"), this.getMessage("many-timers")};
-    return this.getChoiceFormattedMessage("timers-started", arguments, formats, limits);
-  }
-  
-  public int getTimerCount() {
-    return timers.size();
   }
 
   public void stopTimers() {
@@ -126,11 +130,13 @@ public class TimedMessages extends SimplePlugin {
 
   private void loadConfiguration() throws IOException {
     this.configuration = new TimedMessagesConfiguration(this);
-    if (this.configuration.getDebugging()) Logger.setDebugging(this, true);
+    if (this.configuration.getDebugging()) {
+      Logger.setDebugging(this, true);
+    }
   }
 
   private void registerCommands() {
-    CommandManager commandManager = new CommandManager(this);
+    final CommandManager commandManager = new CommandManager(this);
     this.getCommand("tm").setExecutor(commandManager);
     commandManager.addCommand(new ReloadCommand(this));
     commandManager.addCommand(new StartCommand(this));
