@@ -26,9 +26,11 @@ import org.bukkit.permissions.PermissionDefault;
 
 import name.richardson.james.bukkit.timedmessages.TimedMessages;
 import name.richardson.james.bukkit.utilities.command.CommandArgumentException;
+import name.richardson.james.bukkit.utilities.command.ConsoleCommand;
 import name.richardson.james.bukkit.utilities.command.PluginCommand;
 import name.richardson.james.bukkit.utilities.formatters.TimeFormatter;
 
+@ConsoleCommand
 public class StartCommand extends PluginCommand {
 
   private final TimedMessages plugin;
