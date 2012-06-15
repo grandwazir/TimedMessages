@@ -34,24 +34,35 @@ import name.richardson.james.bukkit.timedmessages.random.RandomMessage;
 import name.richardson.james.bukkit.timedmessages.rotation.RotatingMessage;
 import name.richardson.james.bukkit.utilities.command.CommandManager;
 import name.richardson.james.bukkit.utilities.formatters.TimeFormatter;
-import name.richardson.james.bukkit.utilities.internals.Logger;
-import name.richardson.james.bukkit.utilities.plugin.SimplePlugin;
+import name.richardson.james.bukkit.utilities.plugin.SkeletonPlugin;
 
-public class TimedMessages extends SimplePlugin {
+public class TimedMessages extends SkeletonPlugin {
 
+  /* The default amount of time, in seconds, before the timers will start */
   public static final long START_DELAY = 30;
 
+  /* A collection holding all active timers */
   private final Set<Message> timers = new HashSet<Message>();
 
+  /* A list of messages for use in the timers */
   private List<ConfigurationSection> messages;
-  private TimedMessagesConfiguration configuration;
+
+  /* Tracking boolean to check if the timers are active or not. */
   private boolean timersStarted = false;
+
+  public String getArtifactID() {
+    return "timed-messages";
+  }
 
   public String getFormattedTimerStartMessage(final long delay) {
     final Object[] arguments = { this.getTimerCount(), delay };
     final double[] limits = { 0, 1, 2 };
     final String[] formats = { this.getMessage("no-timers"), this.getMessage("one-timer"), this.getMessage("many-timers") };
     return this.getChoiceFormattedMessage("timers-started", arguments, formats, limits);
+  }
+
+  public String getGroupID() {
+    return "name.richardson.james.bukkit";
   }
 
   public int getTimerCount() {
@@ -70,31 +81,7 @@ public class TimedMessages extends SimplePlugin {
   @Override
   public void onDisable() {
     this.stopTimers();
-    this.logger.info(this.getSimpleFormattedMessage("plugin-disabled", this.getDescription().getName()));
-  }
-
-  @Override
-  public void onEnable() {
-    this.logger.setPrefix("[TimedMessages] ");
-
-    try {
-      this.loadConfiguration();
-      this.setResourceBundle();
-      this.loadMessagesConfiguration();
-      this.startTimers(START_DELAY);
-      this.setRootPermission();
-      this.registerCommands();
-    } catch (final IOException exception) {
-      this.logger.severe(this.getMessage("unable-to-read-configuration"));
-      this.setEnabled(false);
-    } finally {
-      if (!this.isEnabled()) {
-        this.logger.severe(this.getMessage("panic"));
-        return;
-      }
-    }
-
-    this.logger.info(this.getSimpleFormattedMessage("plugin-enabled", this.getDescription().getFullName()));
+    this.logger.info(this.getSimpleFormattedMessage("plugin-disabled", this.getName()));
   }
 
   public void startTimers(long startDelay) {
@@ -128,14 +115,12 @@ public class TimedMessages extends SimplePlugin {
     this.getServer().getScheduler().cancelTasks(this);
   }
 
-  private void loadConfiguration() throws IOException {
-    this.configuration = new TimedMessagesConfiguration(this);
-    if (this.configuration.getDebugging()) {
-      Logger.setDebugging(this, true);
-    }
+  protected void loadConfiguration() throws IOException {
+    this.loadMessagesConfiguration();
+    this.startTimers(START_DELAY);
   }
 
-  private void registerCommands() {
+  protected void registerCommands() {
     final CommandManager commandManager = new CommandManager(this);
     this.getCommand("tm").setExecutor(commandManager);
     commandManager.addCommand(new ReloadCommand(this));
