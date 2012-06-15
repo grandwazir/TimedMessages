@@ -1,5 +1,15 @@
-Changelog for TimedMessages (v1.1.1-SNAPSHOT)
+Changelog for TimedMessages (v1.1.3-SNAPSHOT)
 
+
+v1.1.2
+2012-03-24 23:59:16 +0000    Build against latest BukkitUtilities Fixes possible MethodNotFoundException (James Richardson)
+2012-03-03 19:06:54 +0000    fix spelling errors (James Richardson)
+2012-03-03 19:03:44 +0000    removed references to simplestats (James Richardson)
+2012-03-03 19:01:26 +0000    site configuration (James Richardson)
+
+v1.1.1
+2012-03-03 18:54:52 +0000    code clean up (James Richardson)
+2012-03-03 18:52:49 +0000    prepare to release (James Richardson)
 2012-03-03 18:48:26 +0000    fix time parsing fix missing key exception (James Richardson)
 2012-03-03 18:31:43 +0000    fix logging plugin disabled twice (James Richardson)
 2012-03-03 18:30:42 +0000    fix erronous output of startcommand (James Richardson)
