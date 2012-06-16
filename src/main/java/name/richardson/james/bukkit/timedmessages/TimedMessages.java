@@ -119,6 +119,7 @@ public class TimedMessages extends SkeletonPlugin {
     this.loadMessagesConfiguration();
     this.startTimers(START_DELAY);
   }
+  
 
   protected void registerCommands() {
     final CommandManager commandManager = new CommandManager(this);
