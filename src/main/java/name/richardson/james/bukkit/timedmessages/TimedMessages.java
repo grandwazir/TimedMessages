@@ -130,7 +130,7 @@ public class TimedMessages extends SkeletonPlugin {
   }
   
   protected void setupMetrics() throws IOException {
-    new MetricsListener(this);
+    if (!this.configuration.isCollectingStats()) new MetricsListener(this);
   }
   
   protected void registerCommands() {
