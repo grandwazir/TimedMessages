@@ -52,7 +52,14 @@ public class StartCommand extends PluginCommand {
     }
 
     this.plugin.startTimers(this.delay);
-    sender.sendMessage(this.plugin.getFormattedTimerStartMessage(this.delay));
+    sender.sendMessage(this.getFormattedTimerStartMessage(this.delay));
+  }
+  
+  public String getFormattedTimerStartMessage(final long delay) {
+    final Object[] arguments = { this.plugin.getTimerCount(), delay };
+    final double[] limits = { 0, 1, 2 };
+    final String[] formats = { this.getMessage("no-timers"), this.getMessage("one-timer"), this.getMessage("many-timers") };
+    return this.getChoiceFormattedMessage("timers-started", arguments, formats, limits);
   }
 
   public void parseArguments(final String[] arguments, final CommandSender sender) throws CommandArgumentException {

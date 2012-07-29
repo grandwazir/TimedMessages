@@ -1,5 +1,7 @@
 Changelog for TimedMessages (v1.2.1-SNAPSHOT)
 
+2012-07-29 17:07:06 +0100    fix key mismatch (James Richardson)
+2012-07-29 17:05:50 +0100    use new localisation method (James Richardson)
 2012-07-29 16:49:53 +0100    implement metrics (James Richardson)
 2012-07-29 16:33:48 +0100    sort members (James Richardson)
 2012-07-29 16:33:12 +0100    update to latest bukkitutils (James Richardson)
