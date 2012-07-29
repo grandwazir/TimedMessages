@@ -35,16 +35,16 @@ public class RotatingMessage extends Message {
     this.refreshIterator();
   }
 
-  private void refreshIterator() {
-    this.iterator = this.messages.iterator();
-  }
-
   @Override
   protected String getNextMessage() {
     if (!this.iterator.hasNext()) {
       this.refreshIterator();
     }
     return this.iterator.next().toString();
+  }
+
+  private void refreshIterator() {
+    this.iterator = this.messages.iterator();
   }
 
 }
