@@ -19,7 +19,6 @@
 
 package name.richardson.james.bukkit.timedmessages.management;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
@@ -53,7 +52,7 @@ public class StartCommand extends PluginCommand {
     }
 
     this.plugin.startTimers(this.delay);
-    sender.sendMessage(ChatColor.GREEN + this.plugin.getFormattedTimerStartMessage(this.delay));
+    sender.sendMessage(this.plugin.getFormattedTimerStartMessage(this.delay));
   }
 
   public void parseArguments(final String[] arguments, final CommandSender sender) throws CommandArgumentException {
@@ -78,7 +77,7 @@ public class StartCommand extends PluginCommand {
   private void registerPermissions() {
     final String prefix = this.plugin.getDescription().getName().toLowerCase() + ".";
     // create the base permission
-    final Permission base = new Permission(prefix + this.getName(), this.plugin.getMessage("startcommand-permission-description"), PermissionDefault.OP);
+    final Permission base = new Permission(prefix + this.getName(), this.getMessage("permission-description"), PermissionDefault.OP);
     base.addParent(this.plugin.getRootPermission(), true);
     this.addPermission(base);
   }

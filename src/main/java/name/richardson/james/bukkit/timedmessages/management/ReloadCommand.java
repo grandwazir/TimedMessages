@@ -21,7 +21,6 @@ package name.richardson.james.bukkit.timedmessages.management;
 
 import java.io.IOException;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
@@ -49,10 +48,10 @@ public class ReloadCommand extends PluginCommand {
     try {
       this.plugin.loadMessagesConfiguration();
     } catch (final IOException e) {
-      throw new CommandUsageException(this.getMessage("unable-to-read-configuration"));
+      throw new CommandUsageException(this.plugin.getMessage("panic"));
     }
 
-    sender.sendMessage(ChatColor.GREEN + this.getSimpleFormattedMessage("plugin-reloaded", this.plugin.getDescription().getName()));
+    sender.sendMessage(this.getSimpleFormattedMessage("plugin-reloaded", this.plugin.getDescription().getName()));
 
   }
 
@@ -63,7 +62,7 @@ public class ReloadCommand extends PluginCommand {
   private void registerPermissions() {
     final String prefix = this.plugin.getDescription().getName().toLowerCase() + ".";
     // create the base permission
-    final Permission base = new Permission(prefix + this.getName(), this.plugin.getMessage("reloadcommand-permission-description"), PermissionDefault.OP);
+    final Permission base = new Permission(prefix + this.getName(), this.getMessage("reloadcommand-permission-description"), PermissionDefault.OP);
     base.addParent(this.plugin.getRootPermission(), true);
     this.addPermission(base);
   }

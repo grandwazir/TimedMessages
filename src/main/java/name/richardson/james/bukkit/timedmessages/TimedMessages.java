@@ -24,6 +24,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 
 import name.richardson.james.bukkit.timedmessages.management.ReloadCommand;
@@ -114,7 +115,7 @@ public class TimedMessages extends SkeletonPlugin {
       this.getServer().getScheduler().scheduleSyncRepeatingTask(this, task, startDelay, task.getTicks());
       this.timers.add(task);
     }
-    this.logger.info(this.getFormattedTimerStartMessage(startDelayInSeconds));
+    this.logger.info(ChatColor.stripColor(this.getFormattedTimerStartMessage(startDelayInSeconds)));
   }
 
   public void stopTimers() {

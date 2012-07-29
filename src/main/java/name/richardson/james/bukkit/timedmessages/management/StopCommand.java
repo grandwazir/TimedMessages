@@ -19,7 +19,6 @@
 
 package name.richardson.james.bukkit.timedmessages.management;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
@@ -46,7 +45,7 @@ public class StopCommand extends PluginCommand {
     if (this.plugin.isTimersStarted()) {
       this.plugin.stopTimers();
     }
-    sender.sendMessage(ChatColor.GREEN + this.getMessage("timers-stopped"));
+    sender.sendMessage(this.getMessage("timers-stopped"));
   }
 
   public void parseArguments(final String[] arguments, final CommandSender sender) throws CommandArgumentException {
@@ -56,7 +55,7 @@ public class StopCommand extends PluginCommand {
   private void registerPermissions() {
     final String prefix = this.plugin.getDescription().getName().toLowerCase() + ".";
     // create the base permission
-    final Permission base = new Permission(prefix + this.getName(), this.plugin.getMessage("stopcommand-permission-description"), PermissionDefault.OP);
+    final Permission base = new Permission(prefix + this.getName(), this.getMessage("permission-description"), PermissionDefault.OP);
     base.addParent(this.plugin.getRootPermission(), true);
     this.addPermission(base);
   }
