@@ -68,6 +68,14 @@ public class TimedMessages extends SkeletonPlugin {
   public int getTimerCount() {
     return this.timers.size();
   }
+  
+  public int getMessageCount() {
+    int i = 0;
+    for (Message message : timers) {
+      i=+ message.getMessages().size();
+    }
+    return i;
+  }
 
   public boolean isTimersStarted() {
     return this.timersStarted;
@@ -120,7 +128,10 @@ public class TimedMessages extends SkeletonPlugin {
     this.startTimers(START_DELAY);
   }
   
-
+  protected void setupMetrics() throws IOException {
+    new MetricsListener(this);
+  }
+  
   protected void registerCommands() {
     final CommandManager commandManager = new CommandManager(this);
     this.getCommand("tm").setExecutor(commandManager);
