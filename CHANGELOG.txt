@@ -1,5 +1,7 @@
 Changelog for TimedMessages (v1.2.1-SNAPSHOT)
 
+2012-07-29 18:19:56 +0100    preparing for snapshot testing (James Richardson)
+2012-07-29 17:22:31 +0100    add option to disable statistic collection (James Richardson)
 2012-07-29 17:16:40 +0100    preparing for release (James Richardson)
 2012-07-29 17:07:06 +0100    fix key mismatch (James Richardson)
 2012-07-29 17:05:50 +0100    use new localisation method (James Richardson)
