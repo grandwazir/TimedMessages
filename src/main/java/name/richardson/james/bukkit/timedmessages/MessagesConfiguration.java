@@ -27,14 +27,15 @@ import java.util.List;
 
 import org.bukkit.configuration.ConfigurationSection;
 
-import name.richardson.james.bukkit.utilities.persistence.YAMLStorage;
-import name.richardson.james.bukkit.utilities.plugin.SkeletonPlugin;
 
-public class MessagesConfiguration extends YAMLStorage {
+import name.richardson.james.bukkit.utilities.persistence.AbstractYAMLStorage;
+import name.richardson.james.bukkit.utilities.plugin.Plugin;
+
+public class MessagesConfiguration extends AbstractYAMLStorage {
 
   private final List<ConfigurationSection> sections = new LinkedList<ConfigurationSection>();
 
-  public MessagesConfiguration(final SkeletonPlugin plugin) throws IOException {
+  public MessagesConfiguration(final Plugin plugin) throws IOException {
     super(plugin, "messages.yml");
     this.addExamples();
     this.setConfigurationSections();
@@ -45,11 +46,10 @@ public class MessagesConfiguration extends YAMLStorage {
   }
 
   private void addExamples() throws IOException {
-    if (!this.configuration.isConfigurationSection("messages")) {
-      this.logger.debug("Creating examples.");
-      this.configuration.createSection("messages");
-      this.configuration.createSection("messages.example");
-      final ConfigurationSection section = this.configuration.getConfigurationSection("messages.example");
+    if (!this.getConfiguration().isConfigurationSection("messages")) {
+      this.getConfiguration().createSection("messages");
+      this.getConfiguration().createSection("messages.example");
+      final ConfigurationSection section = this.getConfiguration().getConfigurationSection("messages.example");
       section.set("mode", "rotation");
       section.set("delay", "1m");
       section.set("permission", "group.default");
@@ -59,8 +59,8 @@ public class MessagesConfiguration extends YAMLStorage {
   }
 
   private void setConfigurationSections() {
-    for (final String key : this.configuration.getConfigurationSection("messages").getKeys(false)) {
-      this.sections.add(this.configuration.getConfigurationSection("messages." + key));
+    for (final String key : this.getConfiguration().getConfigurationSection("messages").getKeys(false)) {
+      this.sections.add(this.getConfiguration().getConfigurationSection("messages." + key));
     }
   }
 

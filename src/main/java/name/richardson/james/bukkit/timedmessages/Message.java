@@ -27,12 +27,9 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import name.richardson.james.bukkit.utilities.formatters.ColourFormatter;
-import name.richardson.james.bukkit.utilities.formatters.TimeFormatter;
-import name.richardson.james.bukkit.utilities.internals.Logger;
 
 public abstract class Message implements Runnable {
 
-  protected final Logger logger = new Logger(this.getClass());
   protected final List<String> messages;
 
   private final Long ticks;
@@ -47,7 +44,6 @@ public abstract class Message implements Runnable {
     this.permission = permission;
     this.server = server;
     this.worldName = worldName;
-    this.logger.debug(String.format("Creating new message broadcasting every %s (%d ticks)", TimeFormatter.millisToLongDHMS(milliseconds), this.ticks));
   }
 
   public List<String> getMessages() {
@@ -89,9 +85,7 @@ public abstract class Message implements Runnable {
       return;
     }
 
-    this.logger.debug("Selecting players for broadcast: " + players.toString());
     for (final String part : parts) {
-      this.logger.debug(String.format("Broadcasting message: '%s'", part, players.size()));
       for (final Player player : players) {
         player.sendMessage(part);
       }

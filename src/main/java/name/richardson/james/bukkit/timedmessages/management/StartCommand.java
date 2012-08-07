@@ -20,29 +20,36 @@
 package name.richardson.james.bukkit.timedmessages.management;
 
 import org.bukkit.command.CommandSender;
-import org.bukkit.permissions.Permission;
-import org.bukkit.permissions.PermissionDefault;
 
 import name.richardson.james.bukkit.timedmessages.TimedMessages;
+import name.richardson.james.bukkit.utilities.command.AbstractCommand;
 import name.richardson.james.bukkit.utilities.command.CommandArgumentException;
 import name.richardson.james.bukkit.utilities.command.CommandPermissionException;
 import name.richardson.james.bukkit.utilities.command.CommandUsageException;
 import name.richardson.james.bukkit.utilities.command.ConsoleCommand;
-import name.richardson.james.bukkit.utilities.command.PluginCommand;
-import name.richardson.james.bukkit.utilities.formatters.TimeFormatter;
+import name.richardson.james.bukkit.utilities.formatters.ChoiceFormatter;
 
 @ConsoleCommand
-public class StartCommand extends PluginCommand {
+public class StartCommand extends AbstractCommand {
 
   private final TimedMessages plugin;
 
   /** The delay (in seconds) before starting the messages */
-  private long delay;
+  private long delay = TimedMessages.START_DELAY;
+
+  private final ChoiceFormatter formatter;
 
   public StartCommand(final TimedMessages plugin) {
-    super(plugin);
+    super(plugin, false);
     this.plugin = plugin;
-    this.registerPermissions();
+    this.formatter = new ChoiceFormatter(this.getLocalisation());
+    this.formatter.setLimits(0, 1, 2);
+    this.formatter.setMessage(this, "started");
+    this.formatter.setFormats(
+      this.getLocalisation().getMessage(TimedMessages.class, "no-timers"), 
+      this.getLocalisation().getMessage(TimedMessages.class, "one-timer"), 
+      this.getLocalisation().getMessage(TimedMessages.class, "many-timers")
+    );
   }
 
   public void execute(final CommandSender sender) throws CommandArgumentException, CommandPermissionException, CommandUsageException {
@@ -50,43 +57,13 @@ public class StartCommand extends PluginCommand {
     if (this.plugin.isTimersStarted()) {
       this.plugin.stopTimers();
     }
-
     this.plugin.startTimers(this.delay);
-    sender.sendMessage(this.getFormattedTimerStartMessage(this.delay));
+    this.formatter.setArguments(this.plugin.getTimerCount(), this.delay);
+    sender.sendMessage(this.formatter.getMessage());
   }
   
-  public String getFormattedTimerStartMessage(final long delay) {
-    final Object[] arguments = { this.plugin.getTimerCount(), delay };
-    final double[] limits = { 0, 1, 2 };
-    final String[] formats = { this.getMessage("no-timers"), this.getMessage("one-timer"), this.getMessage("many-timers") };
-    return this.getChoiceFormattedMessage("timers-started", arguments, formats, limits);
-  }
-
   public void parseArguments(final String[] arguments, final CommandSender sender) throws CommandArgumentException {
-
-    if (arguments.length >= 1) {
-      try {
-        this.delay = TimeFormatter.parseTime(arguments[0]);
-      } catch (final NumberFormatException exception) {
-        throw new CommandArgumentException(this.getMessage("invalid-time"), this.getMessage("time-format-help"));
-      }
-      // check it is sane
-      this.delay = this.delay / 1000;
-      if (this.delay < 1) {
-        throw new CommandArgumentException(this.getMessage("invalid-time"), this.getMessage("time-format-help"));
-      }
-    } else {
-      this.delay = TimedMessages.START_DELAY;
-    }
-
-  }
-
-  private void registerPermissions() {
-    final String prefix = this.plugin.getDescription().getName().toLowerCase() + ".";
-    // create the base permission
-    final Permission base = new Permission(prefix + this.getName(), this.getMessage("permission-description"), PermissionDefault.OP);
-    base.addParent(this.plugin.getRootPermission(), true);
-    this.addPermission(base);
+    return;
   }
 
 }

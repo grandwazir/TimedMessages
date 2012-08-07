@@ -24,7 +24,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 
 import name.richardson.james.bukkit.timedmessages.management.ReloadCommand;
@@ -35,12 +34,12 @@ import name.richardson.james.bukkit.timedmessages.random.RandomMessage;
 import name.richardson.james.bukkit.timedmessages.rotation.RotatingMessage;
 import name.richardson.james.bukkit.utilities.command.CommandManager;
 import name.richardson.james.bukkit.utilities.formatters.TimeFormatter;
-import name.richardson.james.bukkit.utilities.plugin.SkeletonPlugin;
+import name.richardson.james.bukkit.utilities.plugin.AbstractPlugin;
 
-public class TimedMessages extends SkeletonPlugin {
+public class TimedMessages extends AbstractPlugin {
 
   /* The default amount of time, in seconds, before the timers will start */
-  public static final long START_DELAY = 30;
+  public static final long START_DELAY = 5;
 
   /* A collection holding all active timers */
   private final Set<Message> timers = new HashSet<Message>();
@@ -53,13 +52,6 @@ public class TimedMessages extends SkeletonPlugin {
 
   public String getArtifactID() {
     return "timed-messages";
-  }
-
-  public String getFormattedTimerStartMessage(final long delay) {
-    final Object[] arguments = { this.getTimerCount(), delay };
-    final double[] limits = { 0, 1, 2 };
-    final String[] formats = { this.getMessage("no-timers"), this.getMessage("one-timer"), this.getMessage("many-timers") };
-    return this.getChoiceFormattedMessage("timers-started", arguments, formats, limits);
   }
 
   public String getGroupID() {
@@ -82,15 +74,17 @@ public class TimedMessages extends SkeletonPlugin {
     return this.timersStarted;
   }
 
-  public void loadMessagesConfiguration() throws IOException {
+  @Override
+  protected void loadConfiguration() throws IOException {
+    super.loadConfiguration();
     final MessagesConfiguration configuration = new MessagesConfiguration(this);
     this.messages = configuration.getConfigurationSections();
+    this.startTimers(START_DELAY);
   }
 
   @Override
   public void onDisable() {
     this.stopTimers();
-    this.logger.info(this.getSimpleFormattedMessage("plugin-disabled", this.getName()));
   }
 
   public void startTimers(long startDelay) {
@@ -98,7 +92,6 @@ public class TimedMessages extends SkeletonPlugin {
       this.stopTimers();
     }
     this.timersStarted = true;
-    final long startDelayInSeconds = startDelay;
     startDelay = startDelay * 20;
     for (final ConfigurationSection section : this.messages) {
       final Long milliseconds = TimeFormatter.parseTime(section.getString("delay", "5m"));
@@ -115,7 +108,6 @@ public class TimedMessages extends SkeletonPlugin {
       this.getServer().getScheduler().scheduleSyncRepeatingTask(this, task, startDelay, task.getTicks());
       this.timers.add(task);
     }
-    this.logger.info(ChatColor.stripColor(this.getFormattedTimerStartMessage(startDelayInSeconds)));
   }
 
   public void stopTimers() {
@@ -124,13 +116,13 @@ public class TimedMessages extends SkeletonPlugin {
     this.getServer().getScheduler().cancelTasks(this);
   }
 
-  protected void loadConfiguration() throws IOException {
-    this.loadMessagesConfiguration();
+  public void reloadConfiguration() throws IOException {
+    this.loadConfiguration();
     this.startTimers(START_DELAY);
   }
   
   protected void setupMetrics() throws IOException {
-    if (this.configuration.isCollectingStats()) new MetricsListener(this);
+    new MetricsListener(this);
   }
   
   protected void registerCommands() {

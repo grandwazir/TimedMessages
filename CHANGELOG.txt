@@ -1,5 +1,10 @@
-Changelog for TimedMessages (v1.2.1-SNAPSHOT)
+Changelog for TimedMessages (v1.2.2-SNAPSHOT)
 
+
+v1.2.1
+2012-08-02 11:15:42 +0100    back one (James Richardson)
+2012-08-02 11:14:09 +0100    mess up with version names somehow (James Richardson)
+2012-08-02 11:07:41 +0100    change to notify by default parent pom (James Richardson)
 2012-07-29 18:19:56 +0100    preparing for snapshot testing (James Richardson)
 2012-07-29 17:22:31 +0100    add option to disable statistic collection (James Richardson)
 2012-07-29 17:16:40 +0100    preparing for release (James Richardson)
@@ -19,8 +24,6 @@ v1.1.2
 2012-03-03 19:06:54 +0000    fix spelling errors (James Richardson)
 2012-03-03 19:03:44 +0000    removed references to simplestats (James Richardson)
 2012-03-03 19:01:26 +0000    site configuration (James Richardson)
-
-v1.1.1
 2012-03-03 18:54:52 +0000    code clean up (James Richardson)
 2012-03-03 18:52:49 +0000    prepare to release (James Richardson)
 2012-03-03 18:48:26 +0000    fix time parsing fix missing key exception (James Richardson)

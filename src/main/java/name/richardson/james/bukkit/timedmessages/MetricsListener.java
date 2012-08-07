@@ -2,17 +2,21 @@ package name.richardson.james.bukkit.timedmessages;
 
 import java.io.IOException;
 
-import name.richardson.james.bukkit.utilities.metrics.AbstractMetricsListener;
+import org.bukkit.plugin.Plugin;
+
+import name.richardson.james.bukkit.utilities.metrics.Metrics;
 import name.richardson.james.bukkit.utilities.metrics.Metrics.Graph;
 import name.richardson.james.bukkit.utilities.metrics.Metrics.Plotter;
 
-public class MetricsListener extends AbstractMetricsListener {
+public class MetricsListener {
 
   private final TimedMessages plugin;
+  
+  private Metrics metrics;
 
   public MetricsListener(TimedMessages plugin) throws IOException {
-    super(plugin);
     this.plugin = plugin;
+    this.metrics = new Metrics((Plugin) plugin);
     this.createUsageStatistics();
     this.metrics.start();
   }

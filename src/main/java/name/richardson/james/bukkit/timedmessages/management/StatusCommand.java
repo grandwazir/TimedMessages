@@ -20,56 +20,46 @@
 package name.richardson.james.bukkit.timedmessages.management;
 
 import org.bukkit.command.CommandSender;
-import org.bukkit.permissions.Permission;
-import org.bukkit.permissions.PermissionDefault;
 
 import name.richardson.james.bukkit.timedmessages.TimedMessages;
+import name.richardson.james.bukkit.utilities.command.AbstractCommand;
 import name.richardson.james.bukkit.utilities.command.CommandArgumentException;
 import name.richardson.james.bukkit.utilities.command.CommandPermissionException;
 import name.richardson.james.bukkit.utilities.command.CommandUsageException;
 import name.richardson.james.bukkit.utilities.command.ConsoleCommand;
-import name.richardson.james.bukkit.utilities.command.PluginCommand;
+import name.richardson.james.bukkit.utilities.formatters.ChoiceFormatter;
 
 @ConsoleCommand
-public class StatusCommand extends PluginCommand {
+public class StatusCommand extends AbstractCommand {
 
   private final TimedMessages plugin;
+  
+  private final ChoiceFormatter formatter;
 
   public StatusCommand(final TimedMessages plugin) {
-    super(plugin);
+    super(plugin, false);
     this.plugin = plugin;
-    this.registerPermissions();
+    this.formatter = new ChoiceFormatter(this.getLocalisation());
+    this.formatter.setLimits(0, 1, 2);
+    this.formatter.setMessage(this, "timers-running");
+    this.formatter.setFormats(
+      this.getLocalisation().getMessage(TimedMessages.class, "no-timers"), 
+      this.getLocalisation().getMessage(TimedMessages.class, "one-timer"), 
+      this.getLocalisation().getMessage(TimedMessages.class, "many-timers")
+    );
   }
 
   public void execute(final CommandSender sender) throws CommandArgumentException, CommandPermissionException, CommandUsageException {
-
     if (this.plugin.isTimersStarted()) {
-      sender.sendMessage(this.getFormattedTimerStatusMessage());
+      this.formatter.setArguments(this.plugin.getTimerCount());
+      sender.sendMessage(this.formatter.getMessage());
     } else {
-      sender.sendMessage(this.getMessage("no-timers-running"));
+      sender.sendMessage(this.getLocalisation().getMessage(this, "no-timers-running"));
     }
-
-  }
-
-  public String getFormattedTimerStatusMessage() {
-    if (this.plugin.getTimerCount() == 0) return this.getMessage("no-timers-running");
-    final Object[] arguments = { this.plugin.getTimerCount() };
-    final double[] limits = { 0, 1, 2 };
-    final String[] formats = { this.getMessage("no-timers"), this.getMessage("one-timer"), this.getMessage("many-timers") };
-    return this.getChoiceFormattedMessage("timers-running", arguments, formats, limits);
   }
 
   public void parseArguments(final String[] arguments, final CommandSender sender) throws CommandArgumentException {
-    // TODO Auto-generated method stub
-
-  }
-
-  private void registerPermissions() {
-    final String prefix = this.plugin.getDescription().getName().toLowerCase() + ".";
-    // create the base permission
-    final Permission base = new Permission(prefix + this.getName(), this.getMessage("permission-description"), PermissionDefault.OP);
-    base.addParent(this.plugin.getRootPermission(), true);
-    this.addPermission(base);
+    return;
   }
 
 }

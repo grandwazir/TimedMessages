@@ -20,44 +20,34 @@
 package name.richardson.james.bukkit.timedmessages.management;
 
 import org.bukkit.command.CommandSender;
-import org.bukkit.permissions.Permission;
-import org.bukkit.permissions.PermissionDefault;
 
 import name.richardson.james.bukkit.timedmessages.TimedMessages;
+import name.richardson.james.bukkit.utilities.command.AbstractCommand;
 import name.richardson.james.bukkit.utilities.command.CommandArgumentException;
 import name.richardson.james.bukkit.utilities.command.CommandPermissionException;
 import name.richardson.james.bukkit.utilities.command.CommandUsageException;
 import name.richardson.james.bukkit.utilities.command.ConsoleCommand;
-import name.richardson.james.bukkit.utilities.command.PluginCommand;
 
 @ConsoleCommand
-public class StopCommand extends PluginCommand {
+public class StopCommand extends AbstractCommand {
 
   private final TimedMessages plugin;
 
   public StopCommand(final TimedMessages plugin) {
-    super(plugin);
+    super(plugin, false);
     this.plugin = plugin;
-    this.registerPermissions();
   }
 
   public void execute(final CommandSender sender) throws CommandArgumentException, CommandPermissionException, CommandUsageException {
     if (this.plugin.isTimersStarted()) {
       this.plugin.stopTimers();
     }
-    sender.sendMessage(this.getMessage("timers-stopped"));
+    sender.sendMessage(this.getLocalisation().getMessage(this, "timers-stopped"));
   }
 
   public void parseArguments(final String[] arguments, final CommandSender sender) throws CommandArgumentException {
     return;
   }
 
-  private void registerPermissions() {
-    final String prefix = this.plugin.getDescription().getName().toLowerCase() + ".";
-    // create the base permission
-    final Permission base = new Permission(prefix + this.getName(), this.getMessage("permission-description"), PermissionDefault.OP);
-    base.addParent(this.plugin.getRootPermission(), true);
-    this.addPermission(base);
-  }
 
 }
