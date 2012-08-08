@@ -1,5 +1,6 @@
 Changelog for TimedMessages (v1.2.2-SNAPSHOT)
 
+2012-08-07 10:42:07 +0100    update to BukkitUtils 4.1.0 (James Richardson)
 
 v1.2.1
 2012-08-02 11:15:42 +0100    back one (James Richardson)
