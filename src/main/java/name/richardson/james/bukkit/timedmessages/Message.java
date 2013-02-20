@@ -92,7 +92,7 @@ public abstract class Message implements Runnable {
   
     if (players.isEmpty()) return;
   
-    this.plugin.getCustomLogger().debug(this, "sending-messages", players);
+    this.plugin.getCustomLogger().debug(Message.class, "sending-messages", players);
     for (final String part : parts) {
       for (final Player player : players) {
         player.sendMessage(part);
