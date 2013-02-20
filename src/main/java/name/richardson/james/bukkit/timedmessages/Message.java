@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Set;
 
 import name.richardson.james.bukkit.utilities.formatters.ColourFormatter;
+import name.richardson.james.bukkit.utilities.localisation.Localisation;
 import name.richardson.james.bukkit.utilities.permissions.PermissionManager;
 
 import org.bukkit.Server;
@@ -78,7 +79,7 @@ public abstract class Message implements Runnable {
     final String[] parts = message.split("/n");
     final List<Player> players = new LinkedList<Player>();
     final List<String> worldNames = this.getLoadedWorldNames();
-    
+ 
     for (final Player player : this.server.getOnlinePlayers()) {
       // ignore the player if they are not in the world required
       if (!worldNames.contains(player.getWorld().getName())) continue;    
@@ -91,6 +92,7 @@ public abstract class Message implements Runnable {
   
     if (players.isEmpty()) return;
   
+    this.plugin.getCustomLogger().debug(this, "sending-messages", players);
     for (final String part : parts) {
       for (final Player player : players) {
         player.sendMessage(part);
