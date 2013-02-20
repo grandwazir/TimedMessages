@@ -44,7 +44,7 @@ public abstract class Message implements Runnable {
 
   private final PermissionManager permissionManager;
 
-  private final Set<String> worlds = new HashSet<String>();
+  private final List<String> worlds = new LinkedList<String>();
   private final Set<String> regions = new HashSet<String>();
 
   private final TimedMessages plugin;
@@ -78,11 +78,10 @@ public abstract class Message implements Runnable {
     message = ColourFormatter.replace("&", message);
     final String[] parts = message.split("/n");
     final List<Player> players = new LinkedList<Player>();
-    final List<String> worldNames = this.getLoadedWorldNames();
  
     for (final Player player : this.server.getOnlinePlayers()) {
       // ignore the player if they are not in the world required
-      if (!worldNames.contains(player.getWorld().getName())) continue;    
+      if (!worlds.contains(player.getWorld().getName())) continue;    
       // if the player is not in the correct region ignore them
       if (!this.isPlayerInRegion(player)) continue;
       // ignore the player if they do not have the correct permission
@@ -103,6 +102,7 @@ public abstract class Message implements Runnable {
   public boolean isPlayerInRegion(Player player) {
     if (this.worlds.isEmpty()) return true;
     if (this.plugin.getGlobalRegionManager() == null) return true;
+    if (this.regions.isEmpty()) return true;
     for (String worldName : this.worlds) {
       if (!player.getWorld().getName().equals(worldName)) continue;
       RegionManager manager = this.plugin.getRegionManager(worldName);
@@ -115,16 +115,6 @@ public abstract class Message implements Runnable {
     }
     return false;
   }
-
-  private List<String> getLoadedWorldNames() {
-    List<String> worldNames = new LinkedList<String>();
-    for (World world : this.server.getWorlds()) {
-      worldNames.add(world.getName());
-    }
-    return worldNames;
-  }
-
-
 
   protected abstract String getNextMessage();
 

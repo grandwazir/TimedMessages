@@ -1,5 +1,6 @@
 Changelog for TimedMessages (v1.2.3-SNAPSHOT)
 
+2013-02-20 17:28:05 +0000    reference base class to avoid duplicate messages to localise (James Richardson)
 2013-02-20 17:25:14 +0000    added additional debugging help (James Richardson)
 2013-02-20 17:18:18 +0000    fixed localisation issues, organised imports. (James Richardson)
 2013-02-20 17:05:48 +0000    added warning messages for misconfiguration (James Richardson)
