@@ -19,8 +19,10 @@
 
 package name.richardson.james.bukkit.timedmessages;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.bukkit.Server;
 import org.bukkit.World;
@@ -36,18 +38,19 @@ public abstract class Message implements Runnable {
   private final Long ticks;
   private final String permission;
   private final Server server;
-  private final String worldName;
 
   private final PermissionManager permissionManager;
 
-  public Message(final TimedMessages plugin, final Server server, final Long milliseconds, final List<String> messages, final String permission, final String worldName) {
+  private final Set<String> worlds = new HashSet<String>();
+
+  public Message(final TimedMessages plugin, final Server server, final Long milliseconds, final List<String> messages, final String permission, final List<String> worlds) {
     final long seconds = milliseconds / 1000;
     this.ticks = seconds * 20;
     this.messages = messages;
     this.permission = permission;
     this.permissionManager = plugin.getPermissionManager();
     this.server = server;
-    this.worldName = worldName;
+    this.worlds.addAll(worlds);
   }
 
   public List<String> getMessages() {
@@ -67,34 +70,31 @@ public abstract class Message implements Runnable {
     message = ColourFormatter.replace("&", message);
     final String[] parts = message.split("/n");
     final List<Player> players = new LinkedList<Player>();
-    World world = null;
-
-    if (this.worldName != null) {
-      world = this.server.getWorld(this.worldName);
-    }
-
+    final List<String> worldNames = this.getLoadedWorldNames();
+    
     for (final Player player : this.server.getOnlinePlayers()) {
       // ignore the player if they are not in the world required
-      if ((world != null) && (player.getLocation().getWorld() != world)) {
-        continue;
-      }
+      if (!worldNames.contains(player.getWorld().getName())) continue;    
       // ignore the player if they do not have the correct permission
-      if ((this.permission != null) && (this.permissionManager.hasPlayerPermission(player, this.permission))) {
-        continue;
-      }
+      if (!this.permissionManager.hasPlayerPermission(player, this.permission)) continue;
       players.add(player);
     }
-
-    if (players.isEmpty()) {
-      return;
-    }
-
+  
+    if (players.isEmpty()) return;
+  
     for (final String part : parts) {
       for (final Player player : players) {
         player.sendMessage(part);
       }
     }
+  }
 
+  private List<String> getLoadedWorldNames() {
+    List<String> worldNames = new LinkedList<String>();
+    for (World world : this.server.getWorlds()) {
+      worldNames.add(world.getName());
+    }
+    return worldNames;
   }
 
   protected abstract String getNextMessage();

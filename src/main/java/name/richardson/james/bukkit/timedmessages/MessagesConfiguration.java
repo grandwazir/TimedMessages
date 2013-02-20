@@ -62,7 +62,7 @@ public class MessagesConfiguration extends AbstractYAMLStorage {
       final Long milliseconds = TimeFormatter.parseTime(storage.getString("delay", "5m"));
       final List<String> messages = storage.getStringList("messages");
       final String permission = storage.getString("permission");
-      final String worldName = storage.getString("world");
+      final List<String> worldName = storage.getStringList("world");
       switch (MessageTypes.valueOf(storage.getString("mode", "rotation"))) {
       case ROTATION:
         message = new RotatingMessage(plugin, plugin.getServer(), milliseconds, messages, permission, worldName);
