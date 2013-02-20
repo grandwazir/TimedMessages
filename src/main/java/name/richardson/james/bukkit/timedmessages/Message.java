@@ -42,8 +42,9 @@ public abstract class Message implements Runnable {
   private final PermissionManager permissionManager;
 
   private final Set<String> worlds = new HashSet<String>();
+  private final Set<String> regions = new HashSet<String>();
 
-  public Message(final TimedMessages plugin, final Server server, final Long milliseconds, final List<String> messages, final String permission, final List<String> worlds) {
+  public Message(final TimedMessages plugin, final Server server, final Long milliseconds, final List<String> messages, final String permission, final List<String> worlds, List<String> regions) {
     final long seconds = milliseconds / 1000;
     this.ticks = seconds * 20;
     this.messages = messages;
@@ -51,6 +52,7 @@ public abstract class Message implements Runnable {
     this.permissionManager = plugin.getPermissionManager();
     this.server = server;
     this.worlds.addAll(worlds);
+    this.regions.addAll(regions);
   }
 
   public List<String> getMessages() {

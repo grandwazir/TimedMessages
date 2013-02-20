@@ -29,8 +29,8 @@ import name.richardson.james.bukkit.timedmessages.TimedMessages;
 
 public class RandomMessage extends Message {
 
-  public RandomMessage(final TimedMessages plugin, final Server server, final Long milliseconds, final List<String> messages, final String permission, final List<String> worlds) {
-    super(plugin, server, milliseconds, messages, permission, worlds);
+  public RandomMessage(final TimedMessages plugin, final Server server, final Long milliseconds, final List<String> messages, final String permission, final List<String> worlds, List<String> regions) {
+    super(plugin, server, milliseconds, messages, permission, worlds, regions);
   }
 
   @Override
