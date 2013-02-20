@@ -24,14 +24,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import name.richardson.james.bukkit.utilities.formatters.ColourFormatter;
+import name.richardson.james.bukkit.utilities.permissions.PermissionManager;
+
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import com.sk89q.worldguard.protection.managers.RegionManager;
-
-import name.richardson.james.bukkit.utilities.formatters.ColourFormatter;
-import name.richardson.james.bukkit.utilities.permissions.PermissionManager;
 
 public abstract class Message implements Runnable {
   

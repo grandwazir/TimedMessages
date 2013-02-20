@@ -21,14 +21,14 @@ package name.richardson.james.bukkit.timedmessages.management;
 
 import java.io.IOException;
 
-import org.bukkit.command.CommandSender;
-
 import name.richardson.james.bukkit.timedmessages.TimedMessages;
 import name.richardson.james.bukkit.utilities.command.AbstractCommand;
 import name.richardson.james.bukkit.utilities.command.CommandArgumentException;
 import name.richardson.james.bukkit.utilities.command.CommandPermissionException;
 import name.richardson.james.bukkit.utilities.command.CommandUsageException;
 import name.richardson.james.bukkit.utilities.command.ConsoleCommand;
+
+import org.bukkit.command.CommandSender;
 
 @ConsoleCommand
 public class ReloadCommand extends AbstractCommand {

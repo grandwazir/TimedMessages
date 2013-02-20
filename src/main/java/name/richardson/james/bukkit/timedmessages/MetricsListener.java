@@ -2,11 +2,11 @@ package name.richardson.james.bukkit.timedmessages;
 
 import java.io.IOException;
 
-import org.bukkit.plugin.Plugin;
-
 import name.richardson.james.bukkit.utilities.metrics.Metrics;
 import name.richardson.james.bukkit.utilities.metrics.Metrics.Graph;
 import name.richardson.james.bukkit.utilities.metrics.Metrics.Plotter;
+
+import org.bukkit.plugin.Plugin;
 
 public class MetricsListener {
 

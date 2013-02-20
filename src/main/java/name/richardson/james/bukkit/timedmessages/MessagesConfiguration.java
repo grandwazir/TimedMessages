@@ -25,14 +25,12 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.bukkit.configuration.ConfigurationSection;
-
-
 import name.richardson.james.bukkit.timedmessages.random.RandomMessage;
 import name.richardson.james.bukkit.timedmessages.rotation.RotatingMessage;
 import name.richardson.james.bukkit.utilities.formatters.TimeFormatter;
 import name.richardson.james.bukkit.utilities.persistence.AbstractYAMLStorage;
-import name.richardson.james.bukkit.utilities.plugin.Plugin;
+
+import org.bukkit.configuration.ConfigurationSection;
 
 public class MessagesConfiguration extends AbstractYAMLStorage {
 
@@ -65,8 +63,7 @@ public class MessagesConfiguration extends AbstractYAMLStorage {
       final List<String> worlds = storage.getStringList("worlds");
       final List<String> regions = storage.getStringList("regions");
       if (worlds.isEmpty() && !regions.isEmpty()) {
-        this.getLogger().warning(this, "world-needs-to-be-configured", storage.getName());
-        this.getLogger().warning(this, "message-ignored", storage.getName());
+        this.getLogger().warning(this, "world-must-be-configured", storage.getName());
         continue;
       }
       switch (MessageTypes.valueOf(storage.getString("mode", "ROTATION").toUpperCase())) {

@@ -22,10 +22,10 @@ package name.richardson.james.bukkit.timedmessages.rotation;
 import java.util.Iterator;
 import java.util.List;
 
-import org.bukkit.Server;
-
 import name.richardson.james.bukkit.timedmessages.Message;
 import name.richardson.james.bukkit.timedmessages.TimedMessages;
+
+import org.bukkit.Server;
 
 public class RotatingMessage extends Message {
 

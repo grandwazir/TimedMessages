@@ -24,22 +24,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.bukkit.World;
-import org.bukkit.configuration.ConfigurationSection;
-
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-import com.sk89q.worldguard.protection.GlobalRegionManager;
-import com.sk89q.worldguard.protection.managers.RegionManager;
-
 import name.richardson.james.bukkit.timedmessages.management.ReloadCommand;
 import name.richardson.james.bukkit.timedmessages.management.StartCommand;
 import name.richardson.james.bukkit.timedmessages.management.StatusCommand;
 import name.richardson.james.bukkit.timedmessages.management.StopCommand;
-import name.richardson.james.bukkit.timedmessages.random.RandomMessage;
-import name.richardson.james.bukkit.timedmessages.rotation.RotatingMessage;
 import name.richardson.james.bukkit.utilities.command.CommandManager;
-import name.richardson.james.bukkit.utilities.formatters.TimeFormatter;
 import name.richardson.james.bukkit.utilities.plugin.AbstractPlugin;
+
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.protection.GlobalRegionManager;
+import com.sk89q.worldguard.protection.managers.RegionManager;
 
 public class TimedMessages extends AbstractPlugin {
 
@@ -123,7 +117,7 @@ public class TimedMessages extends AbstractPlugin {
   private void connectToWorldGuard() {
     this.worldGuard = (WorldGuardPlugin) this.getServer().getPluginManager().getPlugin("WorldGuard");
     if (this.worldGuard != null) {
-      this.getCustomLogger().debug(this, this.getLocalisation().getMessage(this, "worldguard-hooked", this.worldGuard.getDescription().getFullName()));
+      this.getCustomLogger().debug(this, "worldguard-hooked", this.worldGuard.getDescription().getFullName());
     }
   }
   

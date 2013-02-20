@@ -22,10 +22,10 @@ package name.richardson.james.bukkit.timedmessages.random;
 import java.util.List;
 import java.util.Random;
 
-import org.bukkit.Server;
-
 import name.richardson.james.bukkit.timedmessages.Message;
 import name.richardson.james.bukkit.timedmessages.TimedMessages;
+
+import org.bukkit.Server;
 
 public class RandomMessage extends Message {
 

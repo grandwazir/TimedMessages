@@ -1,5 +1,6 @@
 Changelog for TimedMessages (v1.2.3-SNAPSHOT)
 
+2013-02-20 17:05:48 +0000    added warning messages for misconfiguration (James Richardson)
 2013-02-20 16:54:19 +0000    added null check for messages without permissions (James Richardson)
 2013-02-20 16:49:57 +0000    upcase mode for compatability (James Richardson)
 2013-02-20 16:42:38 +0000    added region specific messages, fixes #12 (James Richardson)

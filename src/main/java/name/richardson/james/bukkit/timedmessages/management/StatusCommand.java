@@ -19,8 +19,6 @@
 
 package name.richardson.james.bukkit.timedmessages.management;
 
-import org.bukkit.command.CommandSender;
-
 import name.richardson.james.bukkit.timedmessages.TimedMessages;
 import name.richardson.james.bukkit.utilities.command.AbstractCommand;
 import name.richardson.james.bukkit.utilities.command.CommandArgumentException;
@@ -28,6 +26,8 @@ import name.richardson.james.bukkit.utilities.command.CommandPermissionException
 import name.richardson.james.bukkit.utilities.command.CommandUsageException;
 import name.richardson.james.bukkit.utilities.command.ConsoleCommand;
 import name.richardson.james.bukkit.utilities.formatters.ChoiceFormatter;
+
+import org.bukkit.command.CommandSender;
 
 @ConsoleCommand
 public class StatusCommand extends AbstractCommand {
