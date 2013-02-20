@@ -85,7 +85,7 @@ public abstract class Message implements Runnable {
       // if the player is not in the correct region ignore them
       if (!this.isPlayerInRegion(player)) continue;
       // ignore the player if they do not have the correct permission
-      if (!this.permissionManager.hasPlayerPermission(player, this.permission)) continue;
+      if (this.permission != null && !this.permissionManager.hasPlayerPermission(player, this.permission)) continue;
       players.add(player);
     }
   

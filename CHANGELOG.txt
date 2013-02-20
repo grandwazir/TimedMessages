@@ -1,5 +1,6 @@
 Changelog for TimedMessages (v1.2.3-SNAPSHOT)
 
+2013-02-20 16:49:57 +0000    upcase mode for compatability (James Richardson)
 2013-02-20 16:42:38 +0000    added region specific messages, fixes #12 (James Richardson)
 2013-02-20 16:30:41 +0000    allow configuring a list of regions for a message to be displaying within (James Richardson)
 2013-02-20 16:27:35 +0000    add WorldGuard intergration (James Richardson)
