@@ -24,7 +24,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
+
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.protection.GlobalRegionManager;
+import com.sk89q.worldguard.protection.managers.RegionManager;
 
 import name.richardson.james.bukkit.timedmessages.management.ReloadCommand;
 import name.richardson.james.bukkit.timedmessages.management.StartCommand;
@@ -49,6 +54,8 @@ public class TimedMessages extends AbstractPlugin {
 
   /* Tracking boolean to check if the timers are active or not. */
   private boolean timersStarted = false;
+
+  private WorldGuardPlugin worldGuard;
 
   public String getArtifactID() {
     return "timed-messages";
@@ -77,6 +84,7 @@ public class TimedMessages extends AbstractPlugin {
   @Override
   protected void loadConfiguration() throws IOException {
     super.loadConfiguration();
+    this.connectToWorldGuard();
     final MessagesConfiguration configuration = new MessagesConfiguration(this);
     this.messages = configuration.getMessages();
     this.startTimers(START_DELAY);
@@ -110,6 +118,29 @@ public class TimedMessages extends AbstractPlugin {
   
   protected void setupMetrics() throws IOException {
     new MetricsListener(this);
+  }
+  
+  private void connectToWorldGuard() {
+    this.worldGuard = (WorldGuardPlugin) this.getServer().getPluginManager().getPlugin("WorldGuard");
+    if (this.worldGuard != null) {
+      this.getCustomLogger().debug(this, this.getLocalisation().getMessage(this, "worldguard-hooked", this.worldGuard.getDescription().getFullName()));
+    }
+  }
+  
+  public GlobalRegionManager getGlobalRegionManager() {
+    if (this.worldGuard != null) {
+      return this.worldGuard.getGlobalRegionManager();
+    } else {
+      return null;
+    }
+  }
+  
+  public RegionManager getRegionManager(String worldName) {
+    if (this.worldGuard != null) {
+      return this.worldGuard.getRegionManager(this.getServer().getWorld(worldName));
+    } else {
+      return null;
+    }
   }
   
   protected void registerCommands() {

@@ -1,5 +1,13 @@
-Changelog for TimedMessages (v1.2.2-SNAPSHOT)
+Changelog for TimedMessages (v1.2.3-SNAPSHOT)
 
+2013-02-20 16:00:40 +0000    fix references to old worldName (James Richardson)
+2013-02-20 15:59:17 +0000    added ability to set multiple target worlds (James Richardson)
+2013-02-20 15:40:30 +0000    moved MessageCreation logic to MessageConfiguration (James Richardson)
+2013-02-20 15:25:07 +0000    implement PermissionManager (James Richardson)
+2013-02-20 15:11:22 +0000    change parent-pom name (James Richardson)
+
+v1.2.2
+2012-08-08 06:32:11 +0100    prepare for release (James Richardson)
 2012-08-07 10:42:07 +0100    update to BukkitUtils 4.1.0 (James Richardson)
 
 v1.2.1
@@ -25,6 +33,8 @@ v1.1.2
 2012-03-03 19:06:54 +0000    fix spelling errors (James Richardson)
 2012-03-03 19:03:44 +0000    removed references to simplestats (James Richardson)
 2012-03-03 19:01:26 +0000    site configuration (James Richardson)
+
+v1.1.1
 2012-03-03 18:54:52 +0000    code clean up (James Richardson)
 2012-03-03 18:52:49 +0000    prepare to release (James Richardson)
 2012-03-03 18:48:26 +0000    fix time parsing fix missing key exception (James Richardson)
