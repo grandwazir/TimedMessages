@@ -100,6 +100,7 @@ public abstract class Message implements Runnable {
   
   public boolean isPlayerInRegion(Player player) {
     if (this.worlds.isEmpty()) return true;
+    if (this.plugin.getGlobalRegionManager() == null) return true;
     for (String worldName : this.worlds) {
       if (!player.getWorld().getName().equals(worldName)) continue;
       RegionManager manager = this.plugin.getRegionManager(worldName);

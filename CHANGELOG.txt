@@ -1,5 +1,8 @@
 Changelog for TimedMessages (v1.2.3-SNAPSHOT)
 
+2013-02-20 16:42:38 +0000    added region specific messages, fixes #12 (James Richardson)
+2013-02-20 16:30:41 +0000    allow configuring a list of regions for a message to be displaying within (James Richardson)
+2013-02-20 16:27:35 +0000    add WorldGuard intergration (James Richardson)
 2013-02-20 16:00:40 +0000    fix references to old worldName (James Richardson)
 2013-02-20 15:59:17 +0000    added ability to set multiple target worlds (James Richardson)
 2013-02-20 15:40:30 +0000    moved MessageCreation logic to MessageConfiguration (James Richardson)
