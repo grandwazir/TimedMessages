@@ -31,7 +31,7 @@ public class RotatingMessage extends Message {
 
   private Iterator<String> iterator;
 
-  public RotatingMessage(final TimedMessages plugin, final Server server, final Long time, final List<String> messages, final String permission, final String worldName) {
+  public RotatingMessage(final TimedMessages plugin, final Server server, final Long time, final List<String> messages, final String permission, final List<String> worldName) {
     super(plugin, server, time, messages, permission, worldName);
     this.refreshIterator();
   }
