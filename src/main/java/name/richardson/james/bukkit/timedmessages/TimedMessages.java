@@ -45,7 +45,7 @@ public class TimedMessages extends AbstractPlugin {
   private final Set<Message> timers = new HashSet<Message>();
 
   /* A list of messages for use in the timers */
-  private List<ConfigurationSection> messages;
+  private List<Message> messages;
 
   /* Tracking boolean to check if the timers are active or not. */
   private boolean timersStarted = false;
@@ -78,7 +78,7 @@ public class TimedMessages extends AbstractPlugin {
   protected void loadConfiguration() throws IOException {
     super.loadConfiguration();
     final MessagesConfiguration configuration = new MessagesConfiguration(this);
-    this.messages = configuration.getConfigurationSections();
+    this.messages = configuration.getMessages();
     this.startTimers(START_DELAY);
   }
 
@@ -88,25 +88,12 @@ public class TimedMessages extends AbstractPlugin {
   }
 
   public void startTimers(long startDelay) {
-    if (this.timersStarted) {
-      this.stopTimers();
-    }
+    if (this.timersStarted) this.stopTimers();
     this.timersStarted = true;
     startDelay = startDelay * 20;
-    for (final ConfigurationSection section : this.messages) {
-      final Long milliseconds = TimeFormatter.parseTime(section.getString("delay", "5m"));
-      final List<String> messages = section.getStringList("messages");
-      final String permission = section.getString("permission");
-      final String mode = section.getString("mode", "rotation");
-      final String worldName = section.getString("world");
-      Message task;
-      if (mode.equalsIgnoreCase("rotation")) {
-        task = new RotatingMessage(this, this.getServer(), milliseconds, messages, permission, worldName);
-      } else {
-        task = new RandomMessage(this, this.getServer(), milliseconds, messages, permission, worldName);
-      }
-      this.getServer().getScheduler().scheduleSyncRepeatingTask(this, task, startDelay, task.getTicks());
-      this.timers.add(task);
+    for (final Message message : this.messages) {
+      this.getServer().getScheduler().scheduleSyncRepeatingTask(this, message, startDelay, message.getTicks());
+      this.timers.add(message);
     }
   }
 
