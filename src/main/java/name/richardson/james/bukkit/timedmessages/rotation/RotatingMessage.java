@@ -25,13 +25,14 @@ import java.util.List;
 import org.bukkit.Server;
 
 import name.richardson.james.bukkit.timedmessages.Message;
+import name.richardson.james.bukkit.timedmessages.TimedMessages;
 
 public class RotatingMessage extends Message {
 
   private Iterator<String> iterator;
 
-  public RotatingMessage(final Server server, final Long time, final List<String> messages, final String permission, final String worldName) {
-    super(server, time, messages, permission, worldName);
+  public RotatingMessage(final TimedMessages plugin, final Server server, final Long time, final List<String> messages, final String permission, final String worldName) {
+    super(plugin, server, time, messages, permission, worldName);
     this.refreshIterator();
   }
 

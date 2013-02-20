@@ -25,11 +25,12 @@ import java.util.Random;
 import org.bukkit.Server;
 
 import name.richardson.james.bukkit.timedmessages.Message;
+import name.richardson.james.bukkit.timedmessages.TimedMessages;
 
 public class RandomMessage extends Message {
 
-  public RandomMessage(final Server server, final Long milliseconds, final List<String> messages, final String permission, final String worldName) {
-    super(server, milliseconds, messages, permission, worldName);
+  public RandomMessage(final TimedMessages plugin, final Server server, final Long milliseconds, final List<String> messages, final String permission, final String worldName) {
+    super(plugin, server, milliseconds, messages, permission, worldName);
   }
 
   @Override

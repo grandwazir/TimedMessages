@@ -27,9 +27,10 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import name.richardson.james.bukkit.utilities.formatters.ColourFormatter;
+import name.richardson.james.bukkit.utilities.permissions.PermissionManager;
 
 public abstract class Message implements Runnable {
-
+  
   protected final List<String> messages;
 
   private final Long ticks;
@@ -37,11 +38,14 @@ public abstract class Message implements Runnable {
   private final Server server;
   private final String worldName;
 
-  public Message(final Server server, final Long milliseconds, final List<String> messages, final String permission, final String worldName) {
+  private final PermissionManager permissionManager;
+
+  public Message(final TimedMessages plugin, final Server server, final Long milliseconds, final List<String> messages, final String permission, final String worldName) {
     final long seconds = milliseconds / 1000;
     this.ticks = seconds * 20;
     this.messages = messages;
     this.permission = permission;
+    this.permissionManager = plugin.getPermissionManager();
     this.server = server;
     this.worldName = worldName;
   }
@@ -75,7 +79,7 @@ public abstract class Message implements Runnable {
         continue;
       }
       // ignore the player if they do not have the correct permission
-      if ((this.permission != null) && (!player.hasPermission(this.permission))) {
+      if ((this.permission != null) && (this.permissionManager.hasPlayerPermission(player, this.permission))) {
         continue;
       }
       players.add(player);

@@ -101,9 +101,9 @@ public class TimedMessages extends AbstractPlugin {
       final String worldName = section.getString("world");
       Message task;
       if (mode.equalsIgnoreCase("rotation")) {
-        task = new RotatingMessage(this.getServer(), milliseconds, messages, permission, worldName);
+        task = new RotatingMessage(this, this.getServer(), milliseconds, messages, permission, worldName);
       } else {
-        task = new RandomMessage(this.getServer(), milliseconds, messages, permission, worldName);
+        task = new RandomMessage(this, this.getServer(), milliseconds, messages, permission, worldName);
       }
       this.getServer().getScheduler().scheduleSyncRepeatingTask(this, task, startDelay, task.getTicks());
       this.timers.add(task);
