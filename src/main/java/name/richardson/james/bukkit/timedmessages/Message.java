@@ -28,6 +28,8 @@ import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import com.sk89q.worldguard.protection.managers.RegionManager;
+
 import name.richardson.james.bukkit.utilities.formatters.ColourFormatter;
 import name.richardson.james.bukkit.utilities.permissions.PermissionManager;
 
@@ -44,6 +46,8 @@ public abstract class Message implements Runnable {
   private final Set<String> worlds = new HashSet<String>();
   private final Set<String> regions = new HashSet<String>();
 
+  private final TimedMessages plugin;
+
   public Message(final TimedMessages plugin, final Server server, final Long milliseconds, final List<String> messages, final String permission, final List<String> worlds, List<String> regions) {
     final long seconds = milliseconds / 1000;
     this.ticks = seconds * 20;
@@ -53,6 +57,7 @@ public abstract class Message implements Runnable {
     this.server = server;
     this.worlds.addAll(worlds);
     this.regions.addAll(regions);
+    this.plugin = plugin;
   }
 
   public List<String> getMessages() {
@@ -77,6 +82,8 @@ public abstract class Message implements Runnable {
     for (final Player player : this.server.getOnlinePlayers()) {
       // ignore the player if they are not in the world required
       if (!worldNames.contains(player.getWorld().getName())) continue;    
+      // if the player is not in the correct region ignore them
+      if (!this.isPlayerInRegion(player)) continue;
       // ignore the player if they do not have the correct permission
       if (!this.permissionManager.hasPlayerPermission(player, this.permission)) continue;
       players.add(player);
@@ -89,6 +96,21 @@ public abstract class Message implements Runnable {
         player.sendMessage(part);
       }
     }
+  }
+  
+  public boolean isPlayerInRegion(Player player) {
+    if (this.worlds.isEmpty()) return true;
+    for (String worldName : this.worlds) {
+      if (!player.getWorld().getName().equals(worldName)) continue;
+      RegionManager manager = this.plugin.getRegionManager(worldName);
+      final int x = (int) player.getLocation().getX();
+      final int y = (int) player.getLocation().getY();
+      final int z = (int) player.getLocation().getZ();
+      for (String regionName : this.regions) {
+        if (manager.getRegion(regionName).contains(x, y, z)) return true;
+      }
+    }
+    return false;
   }
 
   private List<String> getLoadedWorldNames() {
