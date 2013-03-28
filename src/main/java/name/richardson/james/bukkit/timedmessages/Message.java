@@ -79,7 +79,7 @@ public abstract class Message implements Runnable {
  
     for (final Player player : this.server.getOnlinePlayers()) {
       // ignore the player if they are not in the world required
-      if (worlds.isEmpty() || !worlds.contains(player.getWorld().getName())) continue;    
+      if (!worlds.isEmpty() || !worlds.contains(player.getWorld().getName())) continue;    
       // if the player is not in the correct region ignore them
       if (!this.isPlayerInRegion(player)) continue;
       // ignore the player if they do not have the correct permission
