@@ -76,7 +76,7 @@ public abstract class Message implements Runnable {
     this.plugin.getCustomLogger().debug(this, String.format("Running %s.", this.getClass().getSimpleName()));
     String message = this.getNextMessage();
     message = ColourFormatter.replace("&", message);
-    final String[] parts = message.split("/n");
+    final String[] parts = message.split("\n");
     final List<Player> players = new LinkedList<Player>();
  
     for (final Player player : this.server.getOnlinePlayers()) {
