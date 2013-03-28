@@ -1,5 +1,6 @@
 Changelog for TimedMessages (v1.3.1-SNAPSHOT)
 
+2013-03-28 11:56:49 +0000    reverse this check so if worlds is empty do not continue (James Richardson)
 2013-03-28 11:51:23 +0000    update logging message (James Richardson)
 2013-03-28 11:50:09 +0000    update to new logging interface (James Richardson)
 2013-03-28 11:46:48 +0000    fix bug where a world must always be specified (James Richardson)

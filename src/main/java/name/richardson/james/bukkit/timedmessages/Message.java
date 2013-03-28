@@ -57,6 +57,7 @@ public abstract class Message implements Runnable {
     this.worlds.addAll(worlds);
     this.regions.addAll(regions);
     this.plugin = plugin;
+    this.plugin.getCustomLogger().debug(this, String.format("Creating %s which broadcasts every %s seconds", this.getClass().getSimpleName(), seconds));
   }
 
   public List<String> getMessages() {
