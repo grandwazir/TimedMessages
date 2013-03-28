@@ -73,6 +73,7 @@ public abstract class Message implements Runnable {
   }
 
   public void run() {
+    this.plugin.getCustomLogger().debug(this, String.format("Running %s.", this.getClass().getSimpleName()));
     String message = this.getNextMessage();
     message = ColourFormatter.replace("&", message);
     final String[] parts = message.split("/n");
@@ -80,7 +81,7 @@ public abstract class Message implements Runnable {
  
     for (final Player player : this.server.getOnlinePlayers()) {
       // ignore the player if they are not in the world required
-      if (!worlds.isEmpty() || !worlds.contains(player.getWorld().getName())) continue;    
+      if (!worlds.isEmpty() && !worlds.contains(player.getWorld().getName())) continue;    
       // if the player is not in the correct region ignore them
       if (!this.isPlayerInRegion(player)) continue;
       // ignore the player if they do not have the correct permission
