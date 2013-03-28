@@ -117,7 +117,7 @@ public class TimedMessages extends AbstractPlugin {
   private void connectToWorldGuard() {
     this.worldGuard = (WorldGuardPlugin) this.getServer().getPluginManager().getPlugin("WorldGuard");
     if (this.worldGuard != null) {
-      this.getCustomLogger().debug(this, "worldguard-hooked", this.worldGuard.getDescription().getFullName());
+      this.getCustomLogger().debug(this, String.format("Using %s", this.worldGuard.getDescription().getFullName()));
     }
   }
   
