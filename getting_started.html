@@ -1,0 +1,296 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Getting started</title>
+    <meta name="description" content="">
+    <meta name="author" content="James Richardson">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Import bootstrap .js -->
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="http://grandwazir.github.com/TimedMessages/assets/themes/twitter/bootstrap/js/bootstrap.js"></script>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="http://grandwazir.github.com/TimedMessages/assets/themes/twitter/bootstrap/css/bootstrap.2.2.2.min.css" rel="stylesheet">
+    <link href="http://grandwazir.github.com/TimedMessages/assets/themes/twitter/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Le fav and touch icons -->
+  <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  -->
+
+    <!-- atom & rss feed -->
+    <link href="http://grandwazir.github.com/TimedMessages/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="http://grandwazir.github.com/TimedMessages/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body data-spy="scroll" data-target="#scrollspy" class="extra-padding">
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-narrow">
+          <a class="brand" href="http://grandwazir.github.com/TimedMessages">TimedMessages</a>
+          <ul class="nav">
+            
+            
+            
+
+
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="http://grandwazir.github.com/TimedMessages/download.html">Download</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="http://grandwazir.github.com/TimedMessages/features.html">Features</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li class="active"><a href="http://grandwazir.github.com/TimedMessages/getting_started.html" class="active">Getting started</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add a secondary bar if necessary -->
+    
+    <div id="scrollspy" class="navbar navbar-inverse navbar-fixed-top navbar-secondary">
+      <div class="navbar-inner">
+        <div class="container-narrow">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <div class="nav-collapse">       
+            <ul class="nav">
+              
+                
+                  <li><a href="#creating_messages">Creating messages</a></li>
+                
+              
+                
+                  <li><a href="#specifing_locations">Specifing locations</a></li>
+                
+              
+                
+                  <li><a href="#permissions">Permissions</a></li>
+                
+              
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="container-narrow scroll-adjust">
+
+      <div class="content">
+        
+
+<div class="page-header">
+  <h1>Getting started </h1>
+</div>
+
+<div class="row-fluid">
+  <div class="span12">
+    <p class='lead'>Getting started with TimedMessages couldn't be easier. Just download and drag it into your plugins folder, write your messages into messages.yml and away you go. Still stuck? Read on.</p>
+<h2 id='creating_messages'>Creating messages</h2>
+
+<p>For our example I am going to create a basic message which provides hints to players every 5 minutes. I want all players to receive the messages and I want to go through the message list in order to make sure people get to read each one. My messages.yml is going to end up looking something like this:</p>
+
+<pre><code>messages:
+  general-hints:
+    mode: rotation
+    delay: 5m
+    messages:
+    - Type /help for details on all our commands.
+    - Type /home set to set your home.
+    - You may not build near spawn.</code></pre>
+
+<p>You can specify times using either seconds, minutes, hours or days. For example if I wanted to do a message every 1 hour, 12 minutes and 30 seconds I would use:</p>
+
+<pre><code>delay: 1h12m30s</code></pre>
+
+<p>Next I am going to create another message but this time make it random, get broadcasted every every 7 minutes and 47 seconds (specific I know). I still want to keep my general hints so I will add our new message to our existing configuration like so:</p>
+
+<pre><code>messages:
+  general-hints:
+    mode: rotation
+    delay: 5m
+    messages:
+    - Type /help for details on all our commands.
+    - Type /home set to set your home.
+    - You may not build near spawn.
+  portal-quotes:
+    mode: random
+    delay: 7m47s
+    messages:
+    - What&#39;s your favorite thing about space? Mine is space.
+    - SPAAACCCCCE!
+    - Space space wanna go to space yes please space. Space space. Go to space.</code></pre>
+
+<p>Both will now run at the same time. You may want to vary your delay times slightly to ensure that you do not have lots of messages being broadcast at the same time.</p>
+
+<h4 id='breaking_long_messages_across_separate_lines'>Breaking long messages across separate lines</h4>
+
+<p>You can also separate long messages across separate lines by using <code>\n</code> where you want your message to be split.</p>
+
+<p>This effectively broadcasts splits your message into two and broadcasts each part to the players. Because of this you need to take this into account when using colour codes.</p>
+
+<pre><code>messages:
+- &quot;&amp;LIGHT_PURPLEType /help for details on all our commands.\n&amp;LIGHT_PURPLEType /home to go home.&quot;</code></pre>
+
+<h4 id='using_colours'>Using colours</h4>
+
+<p>You can use colours in your message list to make them more varied and interesting to read. You can either use the classic minecraft colours or use a more readable syntax.</p>
+
+<p>In the following example I am going to change my general hints so they are displayed in light purple.</p>
+
+<pre><code>messages:
+- &quot;&amp;LIGHT_PURPLEType /help for details on all our commands.&quot;
+- &quot;&amp;LIGHT_PURPLEType /home set to set your home.&quot;
+- &quot;&amp;LIGHT_PURPLEYou may not build near spawn.&quot;</code></pre>
+
+<p>You can mix and match as well and have as many colours as you like in a message. For example I am now going to colour my message so the commands are highlighted in red:</p>
+
+<pre><code>messages:
+- &quot;&amp;LIGHT_PURPLEType &amp;RED/help&amp;LIGHT_PURPLE for details on all our commands.&quot;
+- &quot;&amp;LIGHT_PURPLEType &amp;RED/home&amp;LIGHT_PURPLE set to set your home.&quot;
+- &quot;&amp;LIGHT_PURPLEYou may not build near spawn.&quot;</code></pre>
+
+<h2 id='specifying_locations'>Specifying locations</h2>
+
+<h4 id='messages_to_only_people_in_a_certain_world'>Messages to only people in a certain world</h4>
+
+<p>You can also create messages which are only broadcast to players that are in a specific world. This is useful for example if you have world specific rules that you want your players to know about.</p>
+
+<p>In the following example the messages will only be sent to players who are in the world &#8216;nether&#8217; with the permission &#8216;group.explorer&#8217;</p>
+
+<pre><code>guest-hints:
+  mode: rotation
+  delay: 5m
+  worlds:
+  - nether
+  permission: group.default</code></pre>
+
+<h4 id='messages_to_only_people_in_a_certain_worldguard_region'>Messages to only people in a certain WorldGuard region</h4>
+
+<p>You can also create messages which are only broadcast to players who are in a specified WorldGuard region. This is useful if you want to provide specific rules for a region or if you want to create some atmosphere in different parts of an adventure map.</p>
+
+<p>In the following example the messages will only be sent to players who are in the world &#8216;erabus&#8217; and in the &#8216;spawn&#8217; or &#8216;starting_area&#8217; region.</p>
+
+<pre><code>guest-hints:
+  mode: rotation
+  delay: 5m
+  worlds:
+  - world
+  regions:
+  - spawn
+  - starting_area</code></pre>
+
+<p><em>You must specify the world that contains the region otherwise your message will be ignored by the plugin</em></p>
+
+<h2 id='permissions'>Permissions</h2>
+<dl>
+  <dt>timedmessages</dt>
+  <dd>Allows access to everything in the plugin (defaults op).</dd>
+  <dt>timedmessages.reload</dt>
+  <dd>Allow a player to reload messages.yml from disk (defaults op).</dd>
+  <dt>timedmessages.start</dt>
+  <dd>Allow a player to start all timed messages (defaults op)</dd>
+  <dt>timedmessages.status</dt>
+  <dd>Allow a player to check how many timed messages are running (defaults op).</dd>
+  <dt>timedmessages.stop</dt>
+  <dd>Allow a player to stop all timed messages (defaults op).</dd>
+</dl>
+<h4 id='using_permissions_in_messages'>Using permissions in messages</h4>
+
+<p>You can also create messages which are only broadcast to players that have a specific permission. This is useful if you want to create rank specific hints for the players on your server for example.</p>
+
+<p>In the following example the messages will only be sent to players with the permission &#8216;group.default&#8217;</p>
+
+<pre><code>guest-hints:
+  mode: rotation
+  delay: 5m
+  permission: group.explorer</code></pre>
+  </div>
+</div>
+
+
+      </div>
+      <hr>
+      <footer>
+        <p class="text-center"><small>&copy; 2013 James Richardson
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>
+          </small>
+        </p>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+
