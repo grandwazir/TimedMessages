@@ -19,6 +19,9 @@
 
 package name.richardson.james.bukkit.timedmessages.management;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import name.richardson.james.bukkit.timedmessages.TimedMessages;
 import name.richardson.james.bukkit.utilities.command.AbstractCommand;
 import name.richardson.james.bukkit.utilities.command.CommandArgumentException;
@@ -26,6 +29,7 @@ import name.richardson.james.bukkit.utilities.command.CommandPermissionException
 import name.richardson.james.bukkit.utilities.command.CommandUsageException;
 import name.richardson.james.bukkit.utilities.command.ConsoleCommand;
 
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 @ConsoleCommand
@@ -34,7 +38,7 @@ public class StopCommand extends AbstractCommand {
   private final TimedMessages plugin;
 
   public StopCommand(final TimedMessages plugin) {
-    super(plugin, false);
+    super(plugin);
     this.plugin = plugin;
   }
 
@@ -49,5 +53,8 @@ public class StopCommand extends AbstractCommand {
     return;
   }
 
+  public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] arguments) {
+    return new ArrayList<String>();
+  }
 
 }

@@ -19,6 +19,9 @@
 
 package name.richardson.james.bukkit.timedmessages.management;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import name.richardson.james.bukkit.timedmessages.TimedMessages;
 import name.richardson.james.bukkit.utilities.command.AbstractCommand;
 import name.richardson.james.bukkit.utilities.command.CommandArgumentException;
@@ -27,6 +30,7 @@ import name.richardson.james.bukkit.utilities.command.CommandUsageException;
 import name.richardson.james.bukkit.utilities.command.ConsoleCommand;
 import name.richardson.james.bukkit.utilities.formatters.ChoiceFormatter;
 
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 @ConsoleCommand
@@ -37,7 +41,7 @@ public class StatusCommand extends AbstractCommand {
   private final ChoiceFormatter formatter;
 
   public StatusCommand(final TimedMessages plugin) {
-    super(plugin, false);
+    super(plugin);
     this.plugin = plugin;
     this.formatter = new ChoiceFormatter(this.getLocalisation());
     this.formatter.setLimits(0, 1, 2);
@@ -60,6 +64,10 @@ public class StatusCommand extends AbstractCommand {
 
   public void parseArguments(final String[] arguments, final CommandSender sender) throws CommandArgumentException {
     return;
+  }
+  
+  public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] arguments) {
+    return new ArrayList<String>();
   }
 
 }

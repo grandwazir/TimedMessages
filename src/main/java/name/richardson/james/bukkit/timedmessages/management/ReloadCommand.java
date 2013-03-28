@@ -20,6 +20,8 @@
 package name.richardson.james.bukkit.timedmessages.management;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import name.richardson.james.bukkit.timedmessages.TimedMessages;
 import name.richardson.james.bukkit.utilities.command.AbstractCommand;
@@ -28,6 +30,7 @@ import name.richardson.james.bukkit.utilities.command.CommandPermissionException
 import name.richardson.james.bukkit.utilities.command.CommandUsageException;
 import name.richardson.james.bukkit.utilities.command.ConsoleCommand;
 
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 @ConsoleCommand
@@ -36,7 +39,7 @@ public class ReloadCommand extends AbstractCommand {
   private final TimedMessages plugin;
 
   public ReloadCommand(final TimedMessages plugin) {
-    super(plugin, false);
+    super(plugin);
     this.plugin = plugin;
   }
 
@@ -51,6 +54,10 @@ public class ReloadCommand extends AbstractCommand {
 
   public void parseArguments(final String[] arguments, final CommandSender sender) throws CommandArgumentException {
     return;
+  }
+
+  public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] arguments) {
+    return new ArrayList<String>();
   }
 
 }
