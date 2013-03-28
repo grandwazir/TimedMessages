@@ -63,7 +63,7 @@ public class MessagesConfiguration extends AbstractYAMLStorage {
       final List<String> worlds = storage.getStringList("worlds");
       final List<String> regions = storage.getStringList("regions");
       if (worlds.isEmpty() && !regions.isEmpty()) {
-        this.getLogger().warning(this, "world-must-be-configured", storage.getName());
+        this.getLogger().warning(this.getLocalisation().getMessage("world-must-be-configured", storage.getName()));
         continue;
       }
       switch (MessageTypes.valueOf(storage.getString("mode", "ROTATION").toUpperCase())) {
