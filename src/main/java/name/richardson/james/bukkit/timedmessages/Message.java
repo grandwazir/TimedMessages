@@ -25,11 +25,9 @@ import java.util.List;
 import java.util.Set;
 
 import name.richardson.james.bukkit.utilities.formatters.ColourFormatter;
-import name.richardson.james.bukkit.utilities.localisation.Localisation;
 import name.richardson.james.bukkit.utilities.permissions.PermissionManager;
 
 import org.bukkit.Server;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import com.sk89q.worldguard.protection.managers.RegionManager;
@@ -91,7 +89,7 @@ public abstract class Message implements Runnable {
   
     if (players.isEmpty()) return;
   
-    this.plugin.getCustomLogger().debug(Message.class, "sending-messages", players);
+    this.plugin.getCustomLogger().debug(this, String.format("Sending message to following players: %s", players.toString()));
     for (final String part : parts) {
       for (final Player player : players) {
         player.sendMessage(part);
