@@ -25,8 +25,9 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import name.richardson.james.bukkit.timedmessages.random.RandomMessage;
-import name.richardson.james.bukkit.timedmessages.rotation.RotatingMessage;
+import name.richardson.james.bukkit.timedmessages.timer.AbstractTimer;
+import name.richardson.james.bukkit.timedmessages.timer.RandomTimer;
+import name.richardson.james.bukkit.timedmessages.timer.RotatingTimer;
 import name.richardson.james.bukkit.utilities.formatters.TimeFormatter;
 import name.richardson.james.bukkit.utilities.persistence.AbstractYAMLStorage;
 
@@ -53,10 +54,10 @@ public class MessagesConfiguration extends AbstractYAMLStorage {
     return Collections.unmodifiableList(this.sections);
   }
   
-  public List<Message> getMessages() {
-    final List<Message> createdMessages = new LinkedList<Message>();
+  public List<AbstractTimer> getMessages() {
+    final List<AbstractTimer> createdMessages = new LinkedList<AbstractTimer>();
     for (ConfigurationSection storage : this.sections) {
-      Message message;
+      AbstractTimer message;
       final Long milliseconds = TimeFormatter.parseTime(storage.getString("delay", "5m"));
       final List<String> messages = storage.getStringList("messages");
       final String permission = storage.getString("permission");
@@ -68,10 +69,10 @@ public class MessagesConfiguration extends AbstractYAMLStorage {
       }
       switch (MessageTypes.valueOf(storage.getString("mode", "ROTATION").toUpperCase())) {
       case ROTATION:
-        message = new RotatingMessage(plugin, plugin.getServer(), milliseconds, messages, permission, worlds, regions);
+        message = new RotatingTimer(plugin, plugin.getServer(), milliseconds, messages, permission, worlds, regions);
         break;
       default:
-        message = new RandomMessage(plugin, plugin.getServer(), milliseconds, messages, permission, worlds, regions);
+        message = new RandomTimer(plugin, plugin.getServer(), milliseconds, messages, permission, worlds, regions);
       }
       createdMessages.add(message);
     }

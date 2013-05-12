@@ -17,26 +17,20 @@
  * TimedMessages. If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package name.richardson.james.bukkit.timedmessages.random;
+package name.richardson.james.bukkit.timedmessages.timer;
 
 import java.util.List;
 import java.util.Random;
 
-import name.richardson.james.bukkit.timedmessages.Message;
-import name.richardson.james.bukkit.timedmessages.TimedMessages;
+public class RandomTimer extends AbstractTimer {
 
-import org.bukkit.Server;
-
-public class RandomMessage extends Message {
-
-  public RandomMessage(final TimedMessages plugin, final Server server, final Long milliseconds, final List<String> messages, final String permission, final List<String> worlds, List<String> regions) {
-    super(plugin, server, milliseconds, messages, permission, worlds, regions);
+  public RandomTimer(final Long milliseconds, final List<String> messages, final String permission, final List<String> worlds, List<String> regions) {
+    super(milliseconds, messages, permission, worlds, regions);
   }
 
-  @Override
-  protected String getNextMessage() {
-    final int i = new Random().nextInt(this.messages.size());
-    return this.messages.get(i);
+  public String getNextMessage() {
+    final int i = new Random().nextInt(this.getMessages().size());
+    return this.getMessages().get(i);
   }
 
 }

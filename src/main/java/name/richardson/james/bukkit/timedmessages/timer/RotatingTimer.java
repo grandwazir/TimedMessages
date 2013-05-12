@@ -17,27 +17,21 @@
  * TimedMessages. If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package name.richardson.james.bukkit.timedmessages.rotation;
+package name.richardson.james.bukkit.timedmessages.timer;
 
 import java.util.Iterator;
 import java.util.List;
 
-import name.richardson.james.bukkit.timedmessages.Message;
-import name.richardson.james.bukkit.timedmessages.TimedMessages;
-
-import org.bukkit.Server;
-
-public class RotatingMessage extends Message {
+public class RotatingTimer extends AbstractTimer {
 
   private Iterator<String> iterator;
 
-  public RotatingMessage(final TimedMessages plugin, final Server server, final Long time, final List<String> messages, final String permission, final List<String> worlds, List<String> regions) {
-    super(plugin, server, time, messages, permission, worlds, regions);
+  public RotatingTimer(final Long time, final List<String> messages, final String permission, final List<String> worlds, List<String> regions) {
+    super(time, messages, permission, worlds, regions);
     this.refreshIterator();
   }
 
-  @Override
-  protected String getNextMessage() {
+  public String getNextMessage() {
     if (!this.iterator.hasNext()) {
       this.refreshIterator();
     }
@@ -45,7 +39,9 @@ public class RotatingMessage extends Message {
   }
 
   private void refreshIterator() {
-    this.iterator = this.messages.iterator();
+    this.iterator = this.getMessages().iterator();
   }
+
+
 
 }

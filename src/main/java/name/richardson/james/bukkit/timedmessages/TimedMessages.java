@@ -28,6 +28,7 @@ import name.richardson.james.bukkit.timedmessages.management.ReloadCommand;
 import name.richardson.james.bukkit.timedmessages.management.StartCommand;
 import name.richardson.james.bukkit.timedmessages.management.StatusCommand;
 import name.richardson.james.bukkit.timedmessages.management.StopCommand;
+import name.richardson.james.bukkit.timedmessages.timer.AbstractTimer;
 import name.richardson.james.bukkit.utilities.command.CommandManager;
 import name.richardson.james.bukkit.utilities.plugin.AbstractPlugin;
 
@@ -41,10 +42,10 @@ public class TimedMessages extends AbstractPlugin {
   public static final long START_DELAY = 5;
 
   /* A collection holding all active timers */
-  private final Set<Message> timers = new HashSet<Message>();
+  private final Set<AbstractTimer> timers = new HashSet<AbstractTimer>();
 
   /* A list of messages for use in the timers */
-  private List<Message> messages;
+  private List<AbstractTimer> messages;
 
   /* Tracking boolean to check if the timers are active or not. */
   private boolean timersStarted = false;
@@ -65,7 +66,7 @@ public class TimedMessages extends AbstractPlugin {
   
   public int getMessageCount() {
     int i = 0;
-    for (Message message : timers) {
+    for (AbstractTimer message : timers) {
       i=+ message.getMessages().size();
     }
     return i;
@@ -93,7 +94,7 @@ public class TimedMessages extends AbstractPlugin {
     if (this.timersStarted) this.stopTimers();
     this.timersStarted = true;
     startDelay = startDelay * 20;
-    for (final Message message : this.messages) {
+    for (final AbstractTimer message : this.messages) {
       this.getServer().getScheduler().scheduleSyncRepeatingTask(this, message, startDelay, message.getTicks());
       this.timers.add(message);
     }
